@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pengurusan Sekolah (SJKC CHENG MING)</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        /* Styles remain the same */
+        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); z-index: 9999; display: flex; justify-content: center; align-items: center; }
+        .login-card { width: 350px; border-radius: 10px; border: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        #mainApp { display: none; } 
+        .sidebar { min-height: 100vh; background-color: #2c3e50; color: white; }
+        .nav-link { color: rgba(255,255,255,0.8); cursor: pointer; margin-bottom: 5px; }
+        .nav-link:hover, .nav-link.active { color: white; background-color: #34495e; border-radius: 5px; }
+        .card { border: none; shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .grade-box { font-weight: bold; padding: 2px 6px; border-radius: 4px; text-align: center; color: white; font-size: 0.85em; display: inline-block; min-width: 30px;}
+        .g-A { background-color: #28a745; } .g-B { background-color: #17a2b8; } .g-C { background-color: #ffc107; color: black; }
+        .g-D { background-color: #fd7e14; } .g-E { background-color: #dc3545; } .g-TH { background-color: #6c757d; }
+        .hc-tov { background-color: #0d6efd; color: white; } .hc-oti1 { background-color: #fd7e14; color: white; } .hc-u1 { background-color: #ffc107; color: black; }
+        .hc-oti2 { background-color: #6f42c1; color: white; } .hc-u2 { background-color: #198754; color: white; } .hc-etr { background-color: #dc3545; color: white; }
+        .table-input { width: 80px; text-align: center; }
+        .hidden { display: none; }
+        .rc-header { display: flex; align-items: center; border-bottom: 2px solid black; padding-bottom: 15px; margin-bottom: 15px; }
+        .rc-logo { width: 100px; height: auto; margin-right: 20px; }
+        .rc-title h3 { margin: 0; font-weight: bold; text-transform: uppercase; font-size: 1.5rem; }
+        .rc-title h5 { margin: 0; font-weight: normal; font-size: 1rem; }
+        .rc-info-table td { padding: 5px; font-weight: bold; font-size: 0.9rem; }
+        .rc-signature { margin-top: 40px; }
+        .rc-sig-line { border-bottom: 1px solid black; width: 80%; margin: 40px auto 5px auto; }
+        .text-fail { color: red !important; font-weight: bold; } .text-pass { color: black; }
+        .signature-box { margin-top: 40px; page-break-inside: avoid; }
+        .sig-line { border-bottom: 1px solid black; width: 80%; margin: 40px auto 5px auto; }
+        @media print {
+            .no-print { display: none !important; } .sidebar { display: none !important; }
+            .main-content { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+            #loginOverlay { display: none !important; } #mainApp { display: block !important; }
+            body { background-color: white; } .card { box-shadow: none; border: none; }
+            body > * { display: none; } #mainApp { display: block; }
+            .container-fluid { padding: 0; } .row { margin: 0; } .col-md-10 { width: 100%; max-width: 100%; flex: 0 0 100%; padding: 0; }
+            .content-section { display: none; } .content-section:not(.hidden) { display: block; }
+            #reportCardPreview { display: block !important; position: absolute; top: 0; left: 0; width: 100%; }
+            #printTarget { border: none !important; padding: 0 !important; }
+        }
+    </style>
+</head>
+<body>
+<!-- HTML BODY KEKAL SAMA MACAM SEBELUM INI -->
+<div id="loginOverlay"><div class="card login-card p-4"><div class="text-center mb-4"><h1 class="text-primary"><i class="fas fa-user-shield"></i></h1><h4>SISTEM PENGURUSAN PEPERIKSAAN</h4><small class="text-muted">Sila Log Masuk</small></div><div class="mb-3"><label class="form-label">ID Pengguna</label><input type="text" id="usernameInput" class="form-control" placeholder="Masukkan ID Pengguna"></div><div class="mb-3"><label class="form-label">Kata Laluan</label><input type="password" id="passwordInput" class="form-control" placeholder="Masukkan Kata Laluan"></div><button class="btn btn-primary w-100 mb-3" onclick="performLogin()">MASUK</button><div id="loginError" class="alert alert-danger hidden text-center p-2 small">ID atau Kata Laluan Salah!</div><div class="text-center text-muted small mt-2">Sebarang aduan hubungi Unit ICT</div></div></div>
+
+<div class="container-fluid" id="mainApp">
+    <div class="row">
+        <div class="col-md-2 sidebar p-3 no-print">
+            <div class="d-flex justify-content-between align-items-center mb-4"><h5 class="mb-0 fw-bold"><i class="fas fa-school"></i> SJKC CHENG MING</h5><button class="btn btn-sm btn-outline-light" onclick="logout()" title="Keluar"><i class="fas fa-sign-out-alt"></i></button></div>
+            <div class="mb-3"><label class="small text-muted">SESI PERTANDINGAN</label><select id="sessionSelect" class="form-select form-select-sm bg-secondary text-white border-0" onchange="loadData()"><option value="" disabled>-- HEADCOUNT --</option><option value="TOV">TOV (Take Off Value)</option><option value="OTI 1">OTI 1 (Target 1)</option><option value="OTI 2">OTI 2 (Target 2)</option><option value="ETR">ETR (Target Akhir)</option><option value="" disabled>-- UJIAN SEBENAR --</option><option value="PERTANDINGAN AKADEMIK 1 2026">PERTANDINGAN AKADEMIK 1 2026</option><option value="PERTANDINGAN AKADEMIK 2 2026">PERTANDINGAN AKADEMIK 2 2026</option></select></div>
+            <ul class="nav flex-column"><li class="nav-item"><a class="nav-link active" onclick="showSection('dashboard')"><i class="fas fa-home me-2"></i> Utama</a></li><li class="nav-item"><a class="nav-link" onclick="showSection('inputMarks')"><i class="fas fa-edit me-2"></i> Isi Markah</a></li><li class="nav-item"><a class="nav-link" onclick="showSection('reportCard')"><i class="fas fa-id-card me-2"></i> Kad Pelaporan</a></li><li class="nav-item"><a class="nav-link" onclick="showSection('grouping')"><i class="fas fa-users me-2"></i> Pengelompokan</a></li><li class="nav-item"><a class="nav-link" onclick="showSection('headcount')"><i class="fas fa-chart-line me-2"></i> Headcount</a></li><li class="nav-item"><a class="nav-link" onclick="showSection('ranking')"><i class="fas fa-trophy me-2"></i> Ranking Kelas</a></li><li class="nav-item"><a class="nav-link" onclick="showSection('search')"><i class="fas fa-search me-2"></i> Carian Murid</a></li></ul>
+            <hr class="bg-light"><div class="mt-3"><p class="small text-muted mb-2">PENGURUSAN DATA</p><button class="btn btn-sm btn-warning w-100 mb-2" onclick="exportData()"><i class="fas fa-download"></i> Simpan Data (Backup)</button><input type="file" id="importFile" class="hidden" accept=".json" onchange="importData(this)"><button class="btn btn-sm btn-outline-light w-100" onclick="document.getElementById('importFile').click()"><i class="fas fa-upload"></i> Muat Naik Data</button></div>
+        </div>
+        <div class="col-md-10 p-4 main-content">
+            <div id="dashboard" class="content-section"><h2 class="mb-4">Paparan Utama</h2><div class="row"><div class="col-md-4"><div class="card p-3 bg-primary text-white"><h5>Jumlah Murid</h5><h2 id="totalStudents">0</h2></div></div><div class="col-md-4"><div class="card p-3 bg-success text-white"><h5>Kelas Terlibat</h5><h2>6</h2></div></div><div class="col-md-4"><div class="card p-3 bg-info text-white"><h5>Subjek</h5><h2>12</h2></div></div></div><div class="card p-4 mt-3"><h5>Status Pengisian (Sesi Semasa: <span id="currentSessionDisplay"></span>)</h5><div id="fillStatusList"></div></div></div>
+            <div id="inputMarks" class="content-section hidden"><h2 class="mb-3">Pengisian Markah</h2><div class="alert alert-info py-2"><i class="fas fa-info-circle"></i> Sesi: <strong><span id="inputSessionDisplay"></span></strong>.</div><div class="row g-2 mb-4 no-print"><div class="col-md-4"><label>Pilih Kelas</label><select id="classSelect" class="form-select" onchange="loadStudentList()"><option value="">-- Pilih Kelas --</option><option value="TAHUN 1">TAHUN 1</option><option value="TAHUN 2">TAHUN 2</option><option value="TAHUN 3">TAHUN 3</option><option value="TAHUN 4">TAHUN 4</option><option value="TAHUN 5">TAHUN 5</option><option value="TAHUN 6">TAHUN 6</option></select></div><div class="col-md-4"><label>Pilih Subjek</label><select id="subjectSelect" class="form-select" onchange="renderMarkSheet()" disabled></select></div><div class="col-md-4 d-flex align-items-end"><button class="btn btn-primary w-100" onclick="saveMarks()"><i class="fas fa-save"></i> Simpan Markah</button></div></div><div id="markSheetArea" class="card p-4 hidden"><div class="d-flex justify-content-between align-items-center mb-3"><h5 id="sheetTitle">Senarai Nama</h5></div><table class="table table-bordered table-striped table-hover"><thead class="table-dark"><tr><th style="width: 5%">No</th><th>Nama Murid</th><th style="width: 15%">Markah</th><th style="width: 10%">Gred</th></tr></thead><tbody id="studentTableBody"></tbody></table></div></div>
+            <div id="reportCard" class="content-section hidden"><h2 class="mb-3 no-print">Kad Pelaporan Murid</h2><div class="alert alert-warning py-2 no-print"><small>Sila pilih murid, masukkan kehadiran, kemudian tekan "Simpan & Papar".</small></div><div class="row mb-3 no-print"><div class="col-md-3"><label>Kelas</label><select id="rcClassSelect" class="form-select" onchange="loadRCStudentList()"><option value="">-- Pilih Kelas --</option><option value="TAHUN 1">TAHUN 1</option><option value="TAHUN 2">TAHUN 2</option><option value="TAHUN 3">TAHUN 3</option><option value="TAHUN 4">TAHUN 4</option><option value="TAHUN 5">TAHUN 5</option><option value="TAHUN 6">TAHUN 6</option></select></div><div class="col-md-4"><label>Nama Murid</label><select id="rcStudentSelect" class="form-select" onchange="loadAttendanceFromDB()" disabled><option value="">-- Pilih Murid --</option></select></div><div class="col-md-3"><label>Kehadiran (Hadir / Jumlah)</label><div class="input-group"><input type="number" id="attPresent" class="form-control" placeholder="Hadir"><span class="input-group-text">/</span><input type="number" id="attTotal" class="form-control" placeholder="Jum"></div></div><div class="col-md-2 d-flex align-items-end"><button class="btn btn-success w-100" onclick="generateReportCard()"><i class="fas fa-eye"></i> Simpan & Papar</button></div></div><div id="reportCardPreview" class="hidden"><div class="d-flex justify-content-end mb-3 no-print"><button class="btn btn-danger" onclick="window.print()"><i class="fas fa-print me-2"></i> CETAK PDF</button></div><div id="printTarget" class="bg-white p-4" style="border: 1px solid #ccc;"><div class="rc-header"><img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" class="rc-logo" onerror="this.style.display='none'"><div class="rc-title"><h3>SJK(C) CHENG MING</h3><h5 id="rcSessionTitle">PERTANDINGAN AKADEMIK 1 2026</h5></div></div><table class="rc-info-table w-100 mb-3"><tr><td width="15%">NAMA:</td><td width="45%" style="border-bottom: 1px dotted #000;" id="rcName"></td><td width="10%">KELAS:</td><td width="30%" style="border-bottom: 1px dotted #000;" id="rcClass"></td></tr></table><table class="table table-bordered table-sm text-center align-middle" style="border-color: black;"><thead class="table-dark"><tr><th width="10%">BIL</th><th class="text-start">MATA PELAJARAN</th><th width="15%">MARKAH</th><th width="10%">GRED</th></tr></thead><tbody id="rcTableBody"></tbody></table><div class="row mt-3"><div class="col-6"><table class="table table-bordered table-sm" style="border-color:black;"><tr><td class="bg-light">JUMLAH MARKAH</td><td id="rcTotalMarks" class="text-center fw-bold"></td></tr><tr><td class="bg-light">PURATA</td><td id="rcAverage" class="text-center fw-bold"></td></tr><tr><td class="bg-light">KEDUDUKAN DALAM KELAS</td><td id="rcRank" class="text-center fw-bold fs-5"></td></tr></table></div><div class="col-6"><table class="table table-bordered table-sm" style="border-color:black;"><tr><td colspan="2" class="bg-light text-center fw-bold">REKOD KEHADIRAN</td></tr><tr><td>BILANGAN HARI HADIR</td><td id="rcAttPresent" class="text-center">0</td></tr><tr><td>JUMLAH HARI PERSEKOLAHAN</td><td id="rcAttTotal" class="text-center">0</td></tr><tr><td class="bg-light">PERATUS KEHADIRAN</td><td id="rcAttPercent" class="text-center fw-bold">0%</td></tr></table></div></div><div class="rc-signature"><div class="row text-center"><div class="col-4"><div class="rc-sig-line"></div><p><strong>GURU KELAS</strong></p></div><div class="col-4"><div class="rc-sig-line"></div><p><strong>GURU BESAR</strong></p></div><div class="col-4"><div class="rc-sig-line"></div><p><strong>IBU BAPA / PENJAGA</strong></p></div></div></div></div></div></div>
+            <div id="grouping" class="content-section hidden"><h2 class="mb-3 no-print">Sistem Pengelompokan (5 Subjek Teras)</h2><div class="row mb-3 no-print"><div class="col-md-4"><label>Pilih Kelas</label><select id="groupClassSelect" class="form-select"><option value="TAHUN 1">TAHUN 1</option><option value="TAHUN 2">TAHUN 2</option><option value="TAHUN 3">TAHUN 3</option><option value="TAHUN 4">TAHUN 4</option><option value="TAHUN 5">TAHUN 5</option><option value="TAHUN 6">TAHUN 6</option></select></div><div class="col-md-4 d-flex align-items-end"><button class="btn btn-success w-100" onclick="generateGrouping()"><i class="fas fa-sync me-2"></i> Jana Pengelompokan</button></div><div class="col-md-4 d-flex align-items-end"><button class="btn btn-danger w-100" onclick="printGroupingPDF()"><i class="fas fa-print me-2"></i> CETAK PDF</button></div></div><div id="groupingResult" class="card p-4 hidden"></div></div>
+            <div id="headcount" class="content-section hidden"><h2 class="mb-3">Analisis Headcount</h2><div class="row mb-3 no-print"><div class="col-md-4"><label>Pilih Kelas</label><select id="hcClassSelect" class="form-select"><option value="TAHUN 1">TAHUN 1</option><option value="TAHUN 2">TAHUN 2</option><option value="TAHUN 3">TAHUN 3</option><option value="TAHUN 4">TAHUN 4</option><option value="TAHUN 5">TAHUN 5</option><option value="TAHUN 6">TAHUN 6</option></select></div><div class="col-md-4"><label>Pilih Subjek</label><select id="hcSubjectSelect" class="form-select"></select></div><div class="col-md-4 d-flex align-items-end"><button class="btn btn-success w-100" onclick="generateHeadcountMatrix()"><i class="fas fa-table me-2"></i> Papar Headcount</button></div></div><div id="headcountMatrixResult" class="card p-3 hidden"></div></div>
+            <div id="ranking" class="content-section hidden"><h2 class="mb-3">Ranking</h2><div class="row mb-3 no-print"><div class="col-md-6"><select id="rankClassSelect" class="form-select" onchange="generateRanking()"><option value="">-- Pilih Kelas --</option><option value="TAHUN 1">TAHUN 1</option><option value="TAHUN 2">TAHUN 2</option><option value="TAHUN 3">TAHUN 3</option><option value="TAHUN 4">TAHUN 4</option><option value="TAHUN 5">TAHUN 5</option><option value="TAHUN 6">TAHUN 6</option></select></div></div><div id="rankingResult"></div></div>
+            <div id="search" class="content-section hidden"><h2 class="mb-3">Carian</h2><div class="input-group mb-3"><input type="text" id="searchInput" class="form-control" placeholder="Nama murid..."><button class="btn btn-primary" onclick="searchStudent()">Cari</button></div><div id="searchResult"></div></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- 1. RUANGAN TETAPAN (PASTIKAN URL INI BETUL!) ---
+    const URL_EXAM = "https://script.google.com/macros/s/AKfycbw5XBp52ul7FbYXXbZ_XjgRW7wCpIuMAGAcZH3ywYzDjpWwolC7x-bHutGXlPJMbQvoFg/exec"; 
+    const URL_HEADCOUNT = "https://script.google.com/macros/s/AKfycbw147JTOQkKGkwZwU3upCVa63N34AYvQGX9xlMC0m7GCa2DeEDVbsHvfqUqvMP2Z94n/exec"; 
+    const CRED_USER = "SJKCCM", CRED_PASS = "XBC@1012";
+
+    // --- DATA SEKOLAH ---
+    const subjects = ["BAHASA CINA", "BAHASA INGGERIS", "BAHASA MALAYSIA", "MATEMATIK", "PENDIDIKAN AGAMA ISLAM", "PENDIDIKAN MORAL", "PENDIDIKAN JASMANI DAN KESIHATAN", "PENDIDIKAN MUZIK", "PENDIDIKAN SENI VISUAL", "REKA BENTUK TEKNOLOGI", "SAINS", "SEJARAH"];
+    const coreSubjects = ["BAHASA CINA", "BAHASA MALAYSIA", "BAHASA INGGERIS", "MATEMATIK", "SAINS"];
+
+    const studentData = {
+        "TAHUN 1": ["ABIGAIL HOGAN 艾比佳", "ALVIN EDWIN ALMENG 艾文", "ARYAND ARRIQINN BIN OCTOVYIANDYI 艾彦", "AVERY CHRISTEL YIH 易美丽", "CELINE LEE YEN 李妍", "CHEN YI QUAN 曾翊銓", "CHRISCY CLARE COSMAS 柯丽丝", "CLEAVON SEAN CYRILL YAP 叶健辰", "DEBORA ANIKIE ALEXCIUS 狄波菈", "DWAYNE ISAAC PALIKAT 邬韦文", "EABBY CHANZEL CHANBERLAN 陈琪琪", "EALVIE EVERDIN 艾薇", "ELIZ LOH SZE CHING 罗秄溱", "GRIXTON LEE BIN ABDUL HAYY 李关隼", "IVY VYONE JANUARIUS 艾玮", "MIQAILA AAIRA BINTI MAC ANDEON 艾菈", "MOHAMAD AZIZI BIN AHMAD FADZIL 阿齐治", "MUHAMMAD ISAAC ISKANDAR BIN KAMISIN 艾泽", "NAAILA ADRIAANA FO WEI YI 贺薇怡", "NUR FALISHA KHAYLA BINTI MUHAMMAD KHAIRY 法丽莎", "NURUL ZARA ZAHARA BINTI JEFFREY 扎哈拉", "QUEENCIE KING FUNG QIN 金凤勤", "RAISYA HAZIYAH BINTI MOHAMAD RASYID 拉依莎", "SHANELEY WONG 黄雪莉"],
+        "TAHUN 2": ["AARON OCONELL WELFRED 亚伦", "ALDERCY RICHELLE REPIN 艾迪丝", "AMNI ANDHIKA YAP 叶迪卡", "ANGELO ADEEN AJINE 罗安泽", "CAYDEN WONG JI YUAN 王济源", "CHESTER KHOO 顾杰德", "CHLOE LIU SHIN YEE 刘欣怡", "CHRISTY CHEE ZI TING 徐紫婷", "DALTON NEIL LAZARUS 德尔登", "DARREN HO CHONG HENG 何宗恒", "DEJANTZEL MOO TECK WEI 巫德伟", "DEVONE LEE BINTI ABDUL HAYY 李可欣", "ELDEONLEE BIN ELGA 李迪恩", "ELLENNA AUDREY STEPHEN 伊丽娜", "EUXENE THAM YU QIN 谭宇芹", "EVELINA ELNI MERCO 伊韦娜", "FIONA JOHNNY 谭芷荃", "HANS JAVIER EFANDDY 汉斯", "IZZRAF ARFAKSYADZ 伊志拉", "JACQUEEN JACKSPENCE 洁可灵", "JESSE MATTHEW P ARCENA 杰西", "JONATHAN ISAAC MADIRA BAYLON 左纳登", "MCKELLEN KARL BIN MITCHEEL 麦克仁", "MUHAMMAD ARIF PUTRA 阿利夫", "MUHAMMAD FAREED QARIZH 柯利式", "MUHAMMAD FAZLEESYAH 华利士", "NORMA JANE BINTI ADAM GINDA 罗美娟", "NUR NAYYARA ASSYIFA 娜雅拉", "NUR SHELIENA BINTI ABDUL ALIY 沈丽娜", "SALLY ANN JEFF 雪莉", "WILLENA CHONG ER THONG 张尔彤"],
+        "TAHUN 3": ["AARON LIM FUNG BIN ABDULLAH 林枫", "AFEEF IQHWAN BIN ABDULLAH 艾非宜", "AIEZZANN AZZRYIEL BIN OCTOVYIANDYI 艾沾", "ALDER GABE DJ 艾得", "ALEX ZANDER JAIDDY 艾历克", "ALEXANDER YONG LI WEI 杨利伟", "ANNA ANMERRY EDMOND 李安娜", "ARSHAN MIKHAIL KANG 江艾善", "AVY CHRIST JOHN 真仪", "BELLA BETHANY LI AI 李爱", "CHLOE WONG PAU JING 王宝静", "DAYSON CHONG YUNG FOOK 张永福", "EALDY ALBERT 艾迪", "EALVIAN EVERDIN 艾文", "HAWA EYRDEENA BINTI HODHORI 哈娃", "JADEN HOPE JEROME JONATHAN 周杰德", "JULIET ROSABELL JOSUE 朱莉悦", "KAYLYN ONG QIAO EN 翁巧恩", "MIA QUEENIE MARADONA 梅雅", "MUHAMMAD AFNAN BIN ERWAN 周艾南", "MUHAMMAD AISY AZKA BIN ABDUL HAADI 艾习", "MUHAMMAD ARFAN BIN ERWAN 周艾凡", "MUHAMMAD ISKANDAR BIN KAMISIN 伊卡达", "NOVA GRACE JANUARIUS 诺娃", "NUR AINN BINTI RAINOH 安拉诺", "NURUL ZARA ZULIKAH BINTI JEFFREY 朱莉卡", "OLIVER OUSTEN SIAU 萧力威", "OSWIN KING KHIN RONG 金庆荣", "RAQEF HAZREEL BIN MOHD HAFIZI 哈哲立", "SITI FAIQAH ZIHNI BINTI AHMAD FADZIL 娣菲卡", "THAI YUNG XUAN 戴雍轩", "WAFIYATUL AAISHAH BINTI SUFRIH ISAMUDIN 华菲雅"],
+        "TAHUN 4": ["ADAM LUTHFI SHAH BIN ABDULLAH 亚当", "ADRIELL DARELL AJINE 达立儿", "AIEDANN ARRSYHAD 艾尔丹", "ALEXIS CHIN WEI XIAN 陈伟显", "ALLAN KING WEN JIE 金文杰", "AMBERLY HAYVEN 安贝莉", "ANGELY RUTH BINTI ABDULLAH 安琪丽", "ANNA MICHELLE DOMINIC 安娜", "AWANGKU AEMAN ALVEE BIN AWANGKU AZWAN 艾曼", "BENIDICT ANAK MAC KELLAR 贝尼迪", "BRANDON AIDEN JOHNNY 谭官君", "CARSON CHIN ZHI HANG 陈子航", "CAYDEN EZEKIEL CAMILUS 凯登", "CHING JIE QI 詹杰錡", "DAYANG RYAMIEZA ALYA BINTI RAMZI 妲央", "DRAYOOENCHIA EDSON 戴永佳", "EMASHA ESTHER REMSLONE 艾美莎", "ESTER ELIVIANA BINTI FREDDLEY 艾丝德", "IVAN VOO JIA MING 邬家民", "JANIELLE JACKSPENCE 洁妮丽", "KEVIN SHEN CHIN PIN 冼志平", "NIKA REHAZIEL NIKA DAVEY 尼卡", "NUR ADREANA QASEH BINTI JEFFRY 艾丽娜", "NUR FAIQAH KHALEEDA BINTI MUHAMMAD KHAIRY 奴菲卡", "NURRAIHANAH MIKAYLA BINTI RAHMAT JUWANTO 雷哈娜", "PUTRI MAGFIRAH BINTI MOHD ARIFFIN 麦菲拉", "RYVEAL LEE RODRIGO GUMBEH @ GUMBIH 李维恩", "SCARLET ELEANOR ALDAWIN 丝卡乐", "SHANEVERON WONG 黄雪玟", "SHERMELLY JUDE JAIBIN 雪茗丽", "STEVE WONG JI HONG 王济泓", "WILLIAM PHANG KUANG LIANG 彭光良", "ZHEE YON 志勇"],
+        "TAHUN 5": ["ABDUL HABIB HARITH BIN ABDUL SAHIDI 哈比", "ALVARO GAVRIEL WELFRED 亚伟乐", "AMANDA SHEA CYRILL YAP 叶美美", "AMYLIA BINTI KAMISIN 艾美拉", "ARFAN MIKHAIL KANG 江艾凡", "CAYLEB CHRIST MOULI 凯乐", "CLAIRE DANNYSEUS 可丽儿", "DEAN MIFZAL LIEW BIN ABDULLAH 刘迪恩", "EDRY ISAAC CHIA 谢艾德", "ELSA VIANNEY MARY SYLVESTER 艾莎", "FAHYM QUSHAIRY BIN FRANCIS 法杏", "FLORENCE MAXIMILLIAN 符洛仁", "IRFAN ARFAKSYADZ BIN MOHD JAPRI 伊凡", "JACYLEN CHEN 陈美芯", "JAYDEN NELCENT LIEW 刘杰德", "JESVENELLY ASOK 韦妮丽", "MONIE QUEENDY RUDY 莫妮", "MUHAMAD HAFEEZ RAHIM 哈菲兹", "NUR AINDREA NADIYA BINTI JOSAMIN@JASIMIN 安得拉", "NUR QHALLESHA ANAMI BINTI SAHARUL AZRIN 卡俐莎", "NUR SHAINE SEIAN BINTI ABDULLAH 郑雪莉", "NURSYAZWINA SALI BINTI ABDULLAH 莎薇娜", "RYANZACQUELL ALRICH XAVIER 莱恩", "TEY XIN YEE 郑忻颐", "YAP JI CHENG 叶济承"],
+        "TAHUN 6": ["AARON KING WEN SHENG 金文圣", "ADIB ARYAN 叶艾狄", "ALEXSSA MARADONA 艾莉莎", "AMBER ROSE 安蓓儿", "AMNI NURADRIANA HUSNA YAP 叶玉娜", "ANNABELLE MERCO 安贝拉", "ANNAMARIE SOPHIA JIMY 安娜美", "CALVIN LEE YI BIN 李毅彬", "CASSANDRA CHLOE CHRISTOPER 柯珊荙", "CHARLENE MIEA JIMMY 巧琳", "DAVIN LO KETT FUNG 罗国峰", "DEANIELL DEEANN DISIUS 德尼尔", "EALJOY ALBERT 尔齐", "EALVIANIE EVERDIN 尔妮", "ELYN HO SZE XUAN 何芝琁", "FIONNY ARVINA JOHNNY 谭芷霓", "HIZ PUTRA QARDHAWI 希茲", "HYERIN NIECHELL YOLEK 何灵", "IMANUEL LIONEL HIMBULAN 李诺尔", "JAYDEN CHIN TZE FENG 陈子峰", "JAYVRYAN JUNIOR 杰莱恩", "JAZLYN ONG QIAO XUN 翁巧洵", "MAVERICK CHESTER MARK 马富利", "NEOLITTA SHAYNE SIMPLISIUS 施娴", "NOUFAL ARFAKSYADZ 诺法", "NUR AZZAHRA SOFIEA 苏菲亚", "RYNDLEE RODRIGO 仁迪", "SHARONITTA WONG 黄雪柔", "SHERYLYNIEKA DILLESEN 施尼卡", "VICKLY DEEXLEE HARWANDRI 伟特利"]
+    };
+    studentData["TAHUN 3"] = studentData["TAHUN 3"].filter(n => n !== "ALISHA HANANIA BINTI MOHD AZRIN");
+    
+    let db = {};
+    const muslimStudents = ["ARYAND ARRIQINN BIN OCTOVYIANDYI 艾彦", "GRIXTON LEE BIN ABDUL HAYY 李关隼", "MIQAILA AAIRA BINTI MAC ANDEON 艾菈", "MOHAMAD AZIZI BIN AHMAD FADZIL 阿齐治", "MUHAMMAD ISAAC ISKANDAR BIN KAMISIN 艾泽", "NAAILA ADRIAANA FO WEI YI 贺薇怡", "NUR FALISHA KHAYLA BINTI MUHAMMAD KHAIRY 法丽莎", "NURUL ZARA ZAHARA BINTI JEFFREY 扎哈拉", "RAISYA HAZIYAH BINTI MOHAMAD RASYID 拉依莎", "DEVONE LEE BINTI ABDUL HAYY 李可欣", "IZZRAF ARFAKSYADZ 伊志拉", "MUHAMMAD ARIF PUTRA 阿利夫", "MUHAMMAD FAREED QARIZH 柯利式", "MUHAMMAD FAZLEESYAH 华利士", "NORMA JANE BINTI ADAM GINDA 罗美娟", "NUR NAYYARA ASSYIFA 娜雅拉", "NUR SHELIENA BINTI ABDUL ALIY 沈丽娜", "AARON LIM FUNG BIN ABDULLAH 林枫", "AFEEF IQHWAN BIN ABDULLAH 艾非宜", "AIEZZANN AZZRYIEL BIN OCTOVYIANDYI 艾沾", "ARSHAN MIKHAIL KANG 江艾善", "HAWA EYRDEENA BINTI HODHORI 哈娃", "MUHAMMAD AFNAN BIN ERWAN 周艾南", "MUHAMMAD AISY AZKA BIN ABDUL HAADI 艾习", "MUHAMMAD ARFAN BIN ERWAN 周艾凡", "MUHAMMAD ISKANDAR BIN KAMISIN 伊卡达", "NUR AINN BINTI RAINOH 安拉诺", "NURUL ZARA ZULIKAH BINTI JEFFREY 朱莉卡", "RAQEF HAZREEL BIN MOHD HAFIZI 哈哲立", "SITI FAIQAH ZIHNI BINTI AHMAD FADZIL 娣菲卡", "WAFIYATUL AAISHAH BINTI SUFRIH ISAMUDIN 华菲雅", "ADAM LUTHFI SHAH BIN ABDULLAH 亚当", "AIEDANN ARRSYHAD 艾尔丹", "ANGELY RUTH BINTI ABDULLAH 安琪丽", "AWANGKU AEMAN ALVEE BIN AWANGKU AZWAN 艾曼", "DAYANG RYAMIEZA ALYA BINTI RAMZI 妲央", "NUR ADREANA QASEH BINTI JEFFRY 艾丽娜", "NUR FAIQAH KHALEEDA BINTI MUHAMMAD KHAIRY 奴菲卡", "NURRAIHANAH MIKAYLA BINTI RAHMAT JUWANTO 雷哈娜", "PUTRI MAGFIRAH BINTI MOHD ARIFFIN 麦菲拉", "ABDUL HABIB HARITH BIN ABDUL SAHIDI 哈比", "AMYLIA BINTI KAMISIN 艾美拉", "ARFAN MIKHAIL KANG 江艾凡", "DEAN MIFZAL LIEW BIN ABDULLAH 刘迪恩", "EDRY ISAAC CHIA 谢艾德", "FAHYM QUSHAIRY BIN FRANCIS 法杏", "IRFAN ARFAKSYADZ BIN MOHD JAPRI 伊凡", "MUHAMAD HAFEEZ RAHIM 哈菲兹", "NUR AINDREA NADIYA BINTI JOSAMIN@JASIMIN 安得拉", "NUR QHALLESHA ANAMI BINTI SAHARUL AZRIN 卡俐莎", "NUR SHAINE SEIAN BINTI ABDULLAH 郑雪莉", "NURSYAZWINA SALI BINTI ABDULLAH 莎薇娜", "ADIB ARYAN 叶艾狄", "AMNI NURADRIANA HUSNA YAP 叶玉娜", "NOUFAL ARFAKSYADZ 诺法", "NUR AZZAHRA SOFIEA 苏菲亚"];
+
+    // --- LOGIK UTAMA ---
+    window.onload = function() {
+        if(sessionStorage.getItem('isLoggedIn') === 'true') {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+        }
+        
+        // Setup Subjek
+        const popSub = (id) => {
+            const el = document.getElementById(id);
+            if(el) { el.innerHTML = ''; subjects.forEach(s => { let o = document.createElement('option'); o.value=s; o.innerText=s; el.appendChild(o); }); }
+        };
+        popSub('subjectSelect'); popSub('hcSubjectSelect');
+
+        console.log("Loading ALL Data (Exam + Headcount)...");
+        
+        // LOAD DATA DARIPADA DUA-DUA URL
+        Promise.all([
+            fetch(URL_EXAM).then(r => r.json()).catch(e => ({})),      // Tarik Exam
+            fetch(URL_HEADCOUNT).then(r => r.json()).catch(e => ({}))  // Tarik Headcount
+        ])
+        .then(([examData, headcountData]) => {
+            // Gabung Data
+            // Kita merge root keys (Session names)
+            db = { ...examData, ...headcountData }; 
+            
+            localStorage.setItem('sistemMarkahDB', JSON.stringify(db));
+            console.log("Data Berjaya Digabungkan!");
+            loadFillStatus();
+            
+            let count = 0; Object.keys(studentData).forEach(k => count += studentData[k].length);
+            document.getElementById('totalStudents').innerText = count;
+        })
+        .catch(e => {
+            console.log("Offline/Error Mode");
+            const savedData = localStorage.getItem('sistemMarkahDB');
+            if (savedData) db = JSON.parse(savedData);
+        });
+
+        document.getElementById('sessionSelect').value = "PERTANDINGAN AKADEMIK 1 2026";
+        loadData();
+    };
+
+    function performLogin() {
+        if(document.getElementById('usernameInput').value === CRED_USER && document.getElementById('passwordInput').value === CRED_PASS) {
+            sessionStorage.setItem('isLoggedIn', 'true');
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+        } else { document.getElementById('loginError').classList.remove('hidden'); }
+    }
+    function logout() { sessionStorage.removeItem('isLoggedIn'); location.reload(); }
+
+    function showSection(id) {
+        document.querySelectorAll('.content-section').forEach(sec => sec.classList.add('hidden'));
+        document.querySelectorAll('.nav-link').forEach(nav => nav.classList.remove('active'));
+        document.getElementById(id).classList.remove('hidden');
+        event.target.classList.add('active');
+        if(id === 'dashboard') loadFillStatus();
+    }
+    function getCurrentSession() { return document.getElementById('sessionSelect').value; }
+    function loadData() { 
+        const s = getCurrentSession();
+        document.getElementById('currentSessionDisplay').innerText = s;
+        document.getElementById('inputSessionDisplay').innerText = s;
+        loadFillStatus();
+    }
+    
+    // --- FUNGSI SIMPAN (TRAFFIC LIGHT) ---
+    function saveMarks() {
+        const sess = getCurrentSession();
+        const cls = document.getElementById('classSelect').value;
+        const sub = document.getElementById('subjectSelect').value;
+        
+        if(!db[sess]) db[sess]={}; if(!db[sess][cls]) db[sess][cls]={};
+        
+        let marksArray = [];
+        const inputs = document.querySelectorAll('#studentTableBody input');
+        
+        inputs.forEach(inp => {
+            let n = inp.getAttribute('data-name');
+            let v = inp.value.toUpperCase();
+            if(!db[sess][cls][n]) db[sess][cls][n] = {};
+            
+            if(v!=='') {
+                db[sess][cls][n][sub] = { mark: v, grade: calculateGrade(v) };
+                marksArray.push({ name: n, mark: v });
+            } else {
+                if(db[sess][cls][n][sub]) delete db[sess][cls][n][sub];
+            }
+        });
+        localStorage.setItem('sistemMarkahDB', JSON.stringify(db));
+
+        // TENTUKAN URL MANA NAK GUNA (HEADCOUNT vs EXAM)
+        let targetURL = "";
+        let isHC = false;
+
+        if (["TOV", "OTI 1", "OTI 2", "ETR"].includes(sess)) {
+            targetURL = URL_HEADCOUNT;
+            isHC = true;
+        } else {
+            targetURL = URL_EXAM;
+            isHC = false;
+        }
+
+        const saveBtn = document.querySelector('button[onclick="saveMarks()"]');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sedang Simpan...';
+        saveBtn.disabled = true;
+
+        const payload = {
+            session: sess,
+            className: cls,
+            subject: sub,
+            marks: marksArray
+        };
+
+        fetch(targetURL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.result === 'success') {
+                alert(isHC ? 'Berjaya simpan ke HEADCOUNT!' : 'Berjaya simpan ke SHEET EXAM!');
+            } else {
+                alert('RALAT: ' + data.error);
+            }
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+            loadFillStatus();
+        })
+        .catch(err => {
+            alert('TIADA INTERNET. Disimpan di komputer sahaja.');
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+        });
+    }
+
+    // --- FUNGSI LAIN (STANDARD) ---
+    function loadStudentList() {
+        const c = document.getElementById('classSelect').value;
+        const s = document.getElementById('subjectSelect');
+        if(c) { s.disabled=false; renderMarkSheet(); } else { s.disabled=true; document.getElementById('markSheetArea').classList.add('hidden'); }
+    }
+    function renderMarkSheet() {
+        const sess = getCurrentSession(), cls = document.getElementById('classSelect').value, sub = document.getElementById('subjectSelect').value;
+        document.getElementById('markSheetArea').classList.remove('hidden');
+        document.getElementById('sheetTitle').innerText = `${cls} - ${sub}`;
+        const tb = document.getElementById('studentTableBody'); tb.innerHTML = '';
+        if(!db[sess]) db[sess]={}; if(!db[sess][cls]) db[sess][cls]={};
+        
+        let displayCount = 0;
+        studentData[cls].forEach((n) => {
+            let isMuslim = muslimStudents.some(ms => ms.includes(n.split(" ")[0]));
+            if(muslimStudents.includes(n)) isMuslim = true;
+
+            if (sub === 'PENDIDIKAN AGAMA ISLAM' && !isMuslim) return; 
+            if (sub === 'PENDIDIKAN MORAL' && isMuslim) return; 
+
+            displayCount++;
+            let m = '', g = '';
+            if(!db[sess][cls][n]) db[sess][cls][n] = {};
+            if(db[sess][cls][n][sub]) { m = db[sess][cls][n][sub].mark; g = db[sess][cls][n][sub].grade; }
+            let safeID = displayCount;
+            tb.innerHTML += `<tr><td>${displayCount}</td><td>${n}</td>
+            <td><input type="text" class="form-control table-input" value="${m}" oninput="updateRow(this,'grade-${safeID}')" placeholder="Mk" data-name="${n}"></td>
+            <td><div id="grade-${safeID}" class="grade-box ${g?'g-'+g:''}">${g}</div></td></tr>`;
+        });
+    }
+    function updateRow(inp, gid) {
+        let v = inp.value.toUpperCase();
+        if(v!=='TH' && isNaN(v) && v!=='') { inp.value=''; return; }
+        if(v>100) inp.value=100;
+        let g = calculateGrade(v);
+        let el = document.getElementById(gid); el.innerText=g; el.className='grade-box g-'+g;
+    }
+    function calculateGrade(mark) {
+        if (mark === 'TH' || mark === 'th') return 'TH';
+        let m = parseFloat(mark);
+        if (isNaN(m)) return '';
+        return m >= 80 ? 'A' : m >= 65 ? 'B' : m >= 50 ? 'C' : m >= 40 ? 'D' : 'E';
+    }
+    function exportData() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+        const a = document.createElement('a');
+        a.href = dataStr; a.download = "SJKC_Backup.json";
+        document.body.appendChild(a); a.click(); a.remove();
+    }
+    function importData(input) {
+        const file = input.files[0]; if(!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try { db = JSON.parse(e.target.result); localStorage.setItem('sistemMarkahDB', JSON.stringify(db)); alert("OK!"); location.reload(); } catch(err) { alert("Error"); }
+        };
+        reader.readAsText(file);
+    }
+    function loadFillStatus() {
+        const sess = getCurrentSession(), c = document.getElementById('fillStatusList');
+        if(!db[sess]) { c.innerHTML='<p class="text-muted">Tiada data.</p>'; return; }
+        let h = '<ul class="list-group">';
+        Object.keys(studentData).forEach(cls => {
+            let cnt = 0; 
+            if(db[sess][cls]) {
+                let allSubjs = new Set();
+                Object.values(db[sess][cls]).forEach(stu => {
+                    Object.keys(stu).forEach(k => { if(k !== 'attendance') allSubjs.add(k); });
+                });
+                cnt = allSubjs.size;
+            }
+            h += `<li class="list-group-item d-flex justify-content-between">${cls} <span>${cnt} Subjek Diisi</span></li>`;
+        });
+        c.innerHTML = h+'</ul>';
+    }
+    
+    function loadRCStudentList() {
+        const cls = document.getElementById('rcClassSelect').value;
+        const stuSel = document.getElementById('rcStudentSelect');
+        stuSel.innerHTML = '<option value="">-- Pilih Murid --</option>';
+        if(cls) { stuSel.disabled = false; studentData[cls].forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n; stuSel.appendChild(opt); }); }
+        else { stuSel.disabled = true; }
+        document.getElementById('attPresent').value = ''; document.getElementById('attTotal').value = '';
+    }
+    function loadAttendanceFromDB() {
+        const sess = getCurrentSession(), cls = document.getElementById('rcClassSelect').value, name = document.getElementById('rcStudentSelect').value;
+        if (db[sess] && db[sess][cls] && db[sess][cls][name] && db[sess][cls][name].attendance) {
+            document.getElementById('attPresent').value = db[sess][cls][name].attendance.present;
+            document.getElementById('attTotal').value = db[sess][cls][name].attendance.total;
+        } else { document.getElementById('attPresent').value = ''; document.getElementById('attTotal').value = ''; }
+    }
+    function getStudentRank(session, cls, name) {
+        if(!db[session] || !db[session][cls]) return '-';
+        let rankList = [];
+        studentData[cls].forEach(n => {
+            let total = 0;
+            if(db[session][cls][n]) {
+                Object.entries(db[session][cls][n]).forEach(([key, sub]) => {
+                    if(key !== 'attendance' && sub.mark && sub.mark !== 'TH' && !isNaN(sub.mark)) total += parseFloat(sub.mark);
+                });
+            }
+            rankList.push({ name: n, total: total });
+        });
+        rankList.sort((a,b) => b.total - a.total);
+        let rank = rankList.findIndex(x => x.name === name);
+        return (rank !== -1) ? (rank + 1) + ' / ' + rankList.length : '-';
+    }
+    function generateReportCard() {
+        const session = getCurrentSession(), cls = document.getElementById('rcClassSelect').value, name = document.getElementById('rcStudentSelect').value;
+        if(!cls || !name) { alert("Sila pilih kelas dan nama murid."); return; }
+        if(!db[session]) db[session]={}; if(!db[session][cls]) db[session][cls]={}; if(!db[session][cls][name]) db[session][cls][name]={};
+        let p = document.getElementById('attPresent').value || 0, t = document.getElementById('attTotal').value || 0;
+        db[session][cls][name].attendance = { present: p, total: t };
+        localStorage.setItem('sistemMarkahDB', JSON.stringify(db));
+
+        document.getElementById('reportCardPreview').classList.remove('hidden');
+        document.getElementById('rcSessionTitle').innerText = session;
+        document.getElementById('rcName').innerText = name;
+        document.getElementById('rcClass').innerText = cls;
+
+        const tbody = document.getElementById('rcTableBody'); tbody.innerHTML = '';
+        let totalMarks = 0, subjectCount = 0;
+        subjects.forEach((sub, idx) => {
+            let isMuslim = muslimStudents.includes(name);
+            if (sub === 'PENDIDIKAN AGAMA ISLAM' && !isMuslim) return;
+            if (sub === 'PENDIDIKAN MORAL' && isMuslim) return;
+            let m = '-', g = '-';
+            if(db[session] && db[session][cls] && db[session][cls][name] && db[session][cls][name][sub]) {
+                m = db[session][cls][name][sub].mark; g = db[session][cls][name][sub].grade;
+                if(m !== 'TH' && !isNaN(m)) { totalMarks += parseFloat(m); subjectCount++; }
+            }
+            tbody.innerHTML += `<tr><td>${subjectCount + 1}</td><td class="text-start">${sub}</td><td class="fw-bold">${m}</td><td><span class="grade-box ${g!=='-'?'g-'+g:''}">${g}</span></td></tr>`;
+        });
+        document.getElementById('rcTotalMarks').innerText = totalMarks.toFixed(0);
+        document.getElementById('rcAverage').innerText = subjectCount > 0 ? (totalMarks/subjectCount).toFixed(2) : '0';
+        document.getElementById('rcRank').innerText = getStudentRank(session, cls, name);
+        document.getElementById('rcAttPresent').innerText = p;
+        document.getElementById('rcAttTotal').innerText = t;
+        document.getElementById('rcAttPercent').innerText = t > 0 ? ((p/t)*100).toFixed(0) + '%' : '0%';
+    }
+    function generateGrouping() {
+        const session = getCurrentSession(), className = document.getElementById('groupClassSelect').value;
+        const container = document.getElementById('groupingResult'), students = studentData[className];
+        container.classList.remove('hidden');
+        let groups = { 'A': [], 'B': [], 'C': [], 'D': [], 'E': [], 'F': [] };
+        students.forEach(name => {
+            let passedCount = 0, subResults = {};
+            coreSubjects.forEach(sub => {
+                let m = '-', g = '-';
+                if(db[session] && db[session][className] && db[session][className][name] && db[session][className][name][sub]) {
+                    m = db[session][className][name][sub].mark; g = db[session][className][name][sub].grade;
+                    if (g !== 'E' && g !== 'TH' && g !== '-' && g !== '') passedCount++;
+                }
+                subResults[sub] = { m: m, g: g };
+            });
+            let groupChar = 'F';
+            if (passedCount === 5) groupChar = 'A'; else if (passedCount === 4) groupChar = 'B'; else if (passedCount === 3) groupChar = 'C'; else if (passedCount === 2) groupChar = 'D'; else if (passedCount === 1) groupChar = 'E';
+            groups[groupChar].push({ name: name, res: subResults, count: passedCount });
+        });
+        let html = `<div id="printTarget"><div class="text-center mb-4"><h4>LAPORAN PENGELOMPOKAN MURID (5 SUBJEK TERAS)</h4><h5>Sesi: ${session} | Kelas: ${className}</h5></div><table class="table table-bordered table-sm text-center align-middle" style="font-size:0.9rem; border-color:black;"><thead class="table-dark"><tr><th style="width:5%">No</th><th style="text-align:left;">Nama Murid</th><th>BC</th><th>BM</th><th>BI</th><th>MT</th><th>SN</th><th>Lulus</th></tr></thead><tbody>`;
+        ['A', 'B', 'C', 'D', 'E', 'F'].forEach(grp => {
+            if(groups[grp].length > 0) {
+                html += `<tr class="table-secondary"><td colspan="8" class="text-start fw-bold ps-3">KELOMPOK ${grp} (Lulus ${groups[grp][0].count} Subjek)</td></tr>`;
+                groups[grp].forEach((stu, idx) => {
+                    html += `<tr><td>${idx + 1}</td><td style="text-align:left;">${stu.name}</td>`;
+                    coreSubjects.forEach(sub => { let data = stu.res[sub]; let isFail = (data.g === 'E' || data.g === 'TH' || data.g === '-'); html += `<td class="${isFail ? 'text-fail' : 'text-pass'}">${data.m}</td>`; });
+                    html += `<td>${stu.count}/5</td></tr>`;
+                });
+            }
+        });
+        container.innerHTML = html + `</tbody></table><div class="signature-box"><div class="row text-center"><div class="col-4"><p>Disediakan Oleh:</p><div class="sig-line"></div><p><strong>(GURU KELAS)</strong></p></div><div class="col-4"><p>Disemak Oleh:</p><div class="sig-line"></div><p><strong>(P.K. KURIKULUM)</strong></p></div><div class="col-4"><p>Disahkan Oleh:</p><div class="sig-line"></div><p><strong>(GURU BESAR)</strong></p></div></div></div></div>`;
+    }
+    function printGroupingPDF() { if(document.getElementById('groupingResult').classList.contains('hidden')) return; window.print(); }
+    function generateHeadcountMatrix() {
+        const cls = document.getElementById('hcClassSelect').value, sub = document.getElementById('hcSubjectSelect').value, div = document.getElementById('headcountMatrixResult');
+        const cols = [{id:'TOV',c:'hc-tov'},{id:'OTI 1',c:'hc-oti1'},{id:'PERTANDINGAN AKADEMIK 1 2026',c:'hc-u1'}, {id:'OTI 2',c:'hc-oti2'},{id:'PERTANDINGAN AKADEMIK 2 2026',c:'hc-u2'}, {id:'ETR',c:'hc-etr'}];
+        div.classList.remove('hidden');
+        let h = `<h5 class="mb-3">Headcount: ${sub} (${cls})</h5><div class="table-responsive"><table class="table table-bordered table-sm text-center align-middle" style="font-size:0.85rem"><thead class="table-dark"><tr><th rowspan="2">No</th><th rowspan="2" class="text-start">Nama</th>${cols.map(c=>`<th colspan="2" class="${c.c}">${c.id}</th>`).join('')}</tr><tr>${cols.map(c=>`<th>M</th><th>G</th>`).join('')}</tr></thead><tbody>`;
+        let displayCount = 0;
+        studentData[cls].forEach((n) => {
+            let isMuslim = muslimStudents.includes(n);
+            if (sub === 'PENDIDIKAN AGAMA ISLAM' && !isMuslim) return;
+            if (sub === 'PENDIDIKAN MORAL' && isMuslim) return;
+            displayCount++;
+            h+=`<tr><td>${displayCount}</td><td class="text-start fw-bold">${n}</td>`;
+            cols.forEach(c => {
+                let m='-',g='-';
+                if(db[c.id] && db[c.id][cls] && db[c.id][cls][n] && db[c.id][cls][n][sub]) { m=db[c.id][cls][n][sub].mark; g=db[c.id][cls][n][sub].grade; }
+                h+=`<td>${m}</td><td><span class="grade-box ${g!=='-'?'g-'+g:''}">${g}</span></td>`;
+            });
+            h+=`</tr>`;
+        });
+        div.innerHTML = h+`</tbody></table></div>`;
+    }
+    function generateRanking() {
+        const sess = getCurrentSession(), cls = document.getElementById('rankClassSelect').value, div = document.getElementById('rankingResult');
+        if(!db[sess] || !db[sess][cls]) { div.innerHTML='<div class="alert alert-warning">Tiada data untuk sesi ini.</div>'; return; }
+        let arr = [];
+        studentData[cls].forEach(n => {
+            let tot=0, c=0;
+            if(db[sess][cls][n]) { Object.entries(db[sess][cls][n]).forEach(([k,v])=>{ if(k!=='attendance' && v.mark && v.mark !== 'TH' && !isNaN(v.mark)) { tot+=parseFloat(v.mark); c++; } }); }
+            arr.push({n:n, t:tot, a:c>0?(tot/c).toFixed(2):0});
+        });
+        arr.sort((a,b)=>b.t-a.t);
+        let h=`<div class="card p-3"><h5>Ranking ${cls} - ${sess}</h5><table class="table table-sm"><tr><th>Kedudukan</th><th>Nama</th><th>Jumlah Markah</th><th>Purata</th></tr>`;
+        arr.forEach((x,i)=>h+=`<tr><td>${i+1}</td><td>${x.n}</td><td>${x.t}</td><td>${x.a}</td></tr>`);
+        div.innerHTML=h+`</table></div>`;
+    }
+    function searchStudent() {
+        const k = document.getElementById('searchInput').value.toUpperCase(), div = document.getElementById('searchResult');
+        if(k.length<3){alert('3 huruf minimum.');return;} let h='';
+        Object.keys(studentData).forEach(c=>{
+            studentData[c].forEach(n=>{
+                if(n.includes(k)){
+                    h+=`<div class="card p-3 mb-2"><strong>${n} (${c})</strong><hr class="my-1">`;
+                    let foundData = false;
+                    Object.keys(db).forEach(s=>{
+                        if(db[s][c] && db[s][c][n]) {
+                            foundData = true; h+=`<div class="mb-2"><small class="fw-bold text-primary">${s}</small><br><small>`;
+                            let subs = []; Object.keys(db[s][c][n]).forEach(sb=>{ if(sb!=='attendance') subs.push(`${sb}: <b>${db[s][c][n][sb].grade}</b>`); });
+                            h+= subs.join(' | ') + `</small></div>`;
+                        }
+                    });
+                    if(!foundData) h+=`<small class="text-muted">Tiada data.</small>`; h+=`</div>`;
+                }
+            });
+        });
+        div.innerHTML = h||'<div class="alert alert-warning">Tiada rekod.</div>';
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
