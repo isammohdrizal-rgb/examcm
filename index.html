@@ -19,10 +19,16 @@
         .grade-box { font-weight: bold; padding: 2px 6px; border-radius: 4px; text-align: center; color: white; font-size: 0.85em; display: inline-block; min-width: 30px;}
         .g-A { background-color: #28a745; } .g-B { background-color: #17a2b8; } .g-C { background-color: #ffc107; color: black; }
         .g-D { background-color: #fd7e14; } .g-E { background-color: #dc3545; } .g-TH { background-color: #6c757d; }
-        .hc-tov { background-color: #0d6efd; color: white; } .hc-oti1 { background-color: #fd7e14; color: white; } .hc-u1 { background-color: #ffc107; color: black; }
-        .hc-oti2 { background-color: #6f42c1; color: white; } .hc-u2 { background-color: #198754; color: white; } .hc-etr { background-color: #dc3545; color: white; }
+        
+        .hc-tov { background-color: #e2e3e5; color: black; } 
+        .hc-u1 { background-color: #d1e7dd; color: black; } 
+        .hc-oti1 { background-color: #f8d7da; color: black; } 
+        .hc-u2 { background-color: #cff4fc; color: black; } 
+        .hc-oti2 { background-color: #fff3cd; color: black; } 
+        .hc-etr { background-color: #cfe2ff; color: black; }
+        
         .table-input { width: 80px; text-align: center; }
-        .hidden { display: none; }
+        .hidden { display: none !important; }
         .rc-header { display: flex; align-items: center; border-bottom: 2px solid black; padding-bottom: 15px; margin-bottom: 15px; }
         .rc-logo { width: 100px; height: auto; margin-right: 20px; }
         .rc-title h3 { margin: 0; font-weight: bold; text-transform: uppercase; font-size: 1.5rem; }
@@ -34,9 +40,8 @@
         .signature-box { margin-top: 40px; page-break-inside: avoid; }
         .sig-line { border-bottom: 1px solid black; width: 80%; margin: 40px auto 5px auto; }
         
-        /* CSS Tambahan untuk Teks Bahasa Cina (Ditukar ke 0.9em iaitu 90%) */
         .cn-text { display: block; font-size: 0.9em; font-weight: normal; opacity: 0.85; line-height: 1.2; margin-top: 2px; }
-        .cn-nav-text { margin-left: 32px; } /* Untuk selarikan bawah ikon */
+        .cn-nav-text { margin-left: 32px; } 
 
         @media print {
             .no-print { display: none !important; } .sidebar { display: none !important; }
@@ -48,7 +53,24 @@
             .content-section { display: none; } .content-section:not(.hidden) { display: block; }
             #reportCardPreview { display: block !important; position: absolute; top: 0; left: 0; width: 100%; }
             #printTarget { border: none !important; padding: 0 !important; }
-            .table-responsive { overflow: visible !important; } /* Mengelakkan jadual terpotong ketika di print */
+            .table-responsive { overflow: visible !important; } 
+            
+            /* Sembunyikan border input ketika di print agar nampak seperti Excel/Jadual biasa */
+            input[type="text"].form-control {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                outline: none !important;
+            }
+            .table-dark th { background-color: #212529 !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .hc-tov { background-color: #e2e3e5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .hc-u1 { background-color: #d1e7dd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .hc-oti1 { background-color: #f8d7da !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .hc-u2 { background-color: #cff4fc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .hc-oti2 { background-color: #fff3cd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .hc-etr { background-color: #cfe2ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .grade-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         }
     </style>
 </head>
@@ -98,9 +120,9 @@
             <ul class="nav flex-column">
                 <li class="nav-item"><a class="nav-link active" onclick="showSection('dashboard')"><i class="fas fa-home me-2"></i> Utama <span class="cn-text cn-nav-text">主页</span></a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showSection('inputMarks')"><i class="fas fa-edit me-2"></i> Isi Markah <span class="cn-text cn-nav-text">输入分数</span></a></li>
+                <li class="nav-item"><a class="nav-link" onclick="showSection('headcount')"><i class="fas fa-chart-line me-2"></i> Isi & Analisis Headcount <span class="cn-text cn-nav-text">学生成绩预算</span></a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showSection('reportCard')"><i class="fas fa-id-card me-2"></i> Kad Pelaporan <span class="cn-text cn-nav-text">成绩报告单</span></a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showSection('grouping')"><i class="fas fa-users me-2"></i> Pengelompokan <span class="cn-text cn-nav-text">成绩归类表</span></a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showSection('headcount')"><i class="fas fa-chart-line me-2"></i> Headcount <span class="cn-text cn-nav-text">学生成绩预算</span></a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showSection('ranking')"><i class="fas fa-trophy me-2"></i> Ranking Kelas <span class="cn-text cn-nav-text">班级排名</span></a></li>
                 <li class="nav-item"><a class="nav-link" onclick="showSection('search')"><i class="fas fa-search me-2"></i> Carian Murid <span class="cn-text cn-nav-text">学生搜索</span></a></li>
             </ul>
@@ -127,7 +149,7 @@
                 </div>
             </div>
 
-            <!-- ISI MARKAH -->
+            <!-- ISI MARKAH LAMA -->
             <div id="inputMarks" class="content-section hidden">
                 <h2 class="mb-3">Pengisian Markah <br><span class="cn-text text-muted fs-5 d-inline-block mt-1">分数填写</span></h2>
                 <div class="alert alert-info py-2"><i class="fas fa-info-circle"></i> Sesi: <strong><span id="inputSessionDisplay"></span></strong>.</div>
@@ -206,7 +228,7 @@
 
             <!-- PENGELOMPOKAN -->
             <div id="grouping" class="content-section hidden">
-                <h2 class="mb-3 no-print">Sistem Pengelompokan <br><span class="cn-text text-muted fs-5 d-inline-block mt-1">分组系统</span></h2>
+                <h2 class="mb-3 no-print">Sistem Pengelompokan (5 Subjek Teras) <br><span class="cn-text text-muted fs-5 d-inline-block mt-1">分组系统</span></h2>
                 <div class="row mb-3 no-print">
                     <div class="col-md-4"><label>Pilih Kelas</label><select id="groupClassSelect" class="form-select"><option value="TAHUN 1">TAHUN 1</option><option value="TAHUN 2">TAHUN 2</option><option value="TAHUN 3">TAHUN 3</option><option value="TAHUN 4">TAHUN 4</option><option value="TAHUN 5">TAHUN 5</option><option value="TAHUN 6">TAHUN 6</option></select></div>
                     <div class="col-md-4 d-flex align-items-end"><button class="btn btn-success w-100" onclick="generateGrouping()"><i class="fas fa-sync me-2"></i> Jana Pengelompokan</button></div>
@@ -215,32 +237,38 @@
                 <div id="groupingResult" class="card p-4 hidden"></div>
             </div>
 
-            <!-- HEADCOUNT -->
+            <!-- ISI & ANALISIS HEADCOUNT (TERKINI) -->
             <div id="headcount" class="content-section hidden">
-                <h2 class="mb-3">Analisis Headcount <br><span class="cn-text text-muted fs-5 d-inline-block mt-1">学生成绩预算</span></h2>
-                <div class="row mb-3 no-print">
-                    <div class="col-md-3">
-                        <label>Pilih Kelas <br><span class="cn-text text-muted">选择班级</span></label>
+                <h2 class="mb-3">Isi & Analisis Headcount <br><span class="cn-text text-muted fs-5 d-inline-block mt-1">学生成绩预算</span></h2>
+                <div class="row mb-3 no-print g-2">
+                    <div class="col-md-2">
+                        <label class="fw-bold small">Kelas <br><span class="cn-text text-muted">选择班级</span></label>
                         <select id="hcClassSelect" class="form-select" onchange="updateHcSubjects()"><option value="TAHUN 1">TAHUN 1</option><option value="TAHUN 2">TAHUN 2</option><option value="TAHUN 3">TAHUN 3</option><option value="TAHUN 4">TAHUN 4</option><option value="TAHUN 5">TAHUN 5</option><option value="TAHUN 6">TAHUN 6</option></select>
                     </div>
                     <div class="col-md-3">
-                        <label>Pilih Subjek <br><span class="cn-text text-muted">选择科目</span></label>
+                        <label class="fw-bold small">Subjek <br><span class="cn-text text-muted">选择科目</span></label>
                         <select id="hcSubjectSelect" class="form-select"></select>
                     </div>
-                    <div class="col-md-3 d-flex align-items-end">
+                    <div class="col-md-2 d-flex align-items-end">
                         <button class="btn btn-success w-100 d-flex flex-column align-items-center justify-content-center" onclick="generateHeadcountMatrix()">
-                            <span><i class="fas fa-table me-1"></i> Papar Headcount</span>
-                            <span class="cn-text text-white mt-1" style="font-size: 0.9em;">查看成绩预算</span>
+                            <span><i class="fas fa-table me-1"></i> Papar</span>
+                            <span class="cn-text text-white mt-1" style="font-size: 0.9em;">查看</span>
                         </button>
                     </div>
                     <div class="col-md-3 d-flex align-items-end">
+                        <button id="btnSaveHeadcount" class="btn btn-primary w-100 d-flex flex-column align-items-center justify-content-center" onclick="saveHeadcountMatrix()" disabled>
+                            <span><i class="fas fa-save me-1"></i> SIMPAN MARKAH</span>
+                            <span class="cn-text text-white mt-1" style="font-size: 0.9em;">保存成绩</span>
+                        </button>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
                         <button class="btn btn-danger w-100 d-flex flex-column align-items-center justify-content-center" onclick="printHeadcountPDF()">
                             <span><i class="fas fa-print me-1"></i> CETAK PDF</span>
                             <span class="cn-text text-white mt-1" style="font-size: 0.9em;">打印 PDF</span>
                         </button>
                     </div>
                 </div>
-                <div id="headcountMatrixResult" class="card p-3 hidden"></div>
+                <div id="headcountMatrixResult" class="card p-3 hidden shadow-sm border-0"></div>
             </div>
 
             <!-- RANKING -->
@@ -300,6 +328,8 @@
             if (sub === currentSub) o.selected = true;
             s.appendChild(o);
         });
+        document.getElementById('headcountMatrixResult').classList.add('hidden');
+        document.getElementById('btnSaveHeadcount').disabled = true;
     }
 
     window.onload = function() {
@@ -308,8 +338,13 @@
             document.getElementById('mainApp').style.display = 'block';
         }
         
-        // Panggil untuk siapkan menu subjek di ruang Headcount
+        // Sediakan menu dropdown
         updateHcSubjects();
+        const popSub = (id) => {
+            const el = document.getElementById(id);
+            if(el) { el.innerHTML = ''; subjects.forEach(s => { let o = document.createElement('option'); o.value=s; o.innerText=s; el.appendChild(o); }); }
+        };
+        popSub('subjectSelect');
 
         Promise.all([
             fetch(URL_EXAM).then(r => r.json()).catch(e => ({})),
@@ -359,6 +394,167 @@
         loadFillStatus();
     }
     
+    // --- FUNGSI SIMPAN HEADCOUNT SERENTAK (BARU) ---
+    async function saveHeadcountMatrix() {
+        const cls = document.getElementById('hcClassSelect').value;
+        const sub = document.getElementById('hcSubjectSelect').value;
+        
+        // Definisi Sesi & Pautan Google Script (Gabungan Exam & Headcount)
+        const sessions = [
+            { id: 'TOV', isHC: true },
+            { id: 'PERTANDINGAN AKADEMIK 1 2026', isHC: false },
+            { id: 'OTI 1', isHC: true },
+            { id: 'PERTANDINGAN AKADEMIK 2 2026', isHC: false },
+            { id: 'OTI 2', isHC: true },
+            { id: 'ETR', isHC: true }
+        ];
+
+        const btn = document.getElementById('btnSaveHeadcount');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin mt-1 mb-1" style="font-size:1.5rem"></i><span style="font-size:0.8em">Menyimpan...</span>';
+        btn.disabled = true;
+
+        let hasError = false;
+
+        // Loop melalui setiap 6 sesi dan simpan satu per satu agar Apps Script tidak crash (lock service safe)
+        for (let sessInfo of sessions) {
+            let targetURL = sessInfo.isHC ? URL_HEADCOUNT : URL_EXAM;
+            let marksArray = [];
+            
+            // Kumpul semua markah berdasarkan CSS class input yang unik untuk sesi tersebut
+            let inputs = document.querySelectorAll(`.hc-input-${sessInfo.id.replace(/\s+/g, '-')}`);
+            inputs.forEach(inp => {
+                let n = inp.getAttribute('data-name');
+                let v = inp.value.toUpperCase();
+                if(v !== '') marksArray.push({ name: n, mark: v });
+            });
+
+            let payload = { session: sessInfo.id, className: cls, subject: sub, marks: marksArray };
+            
+            try {
+                let response = await fetch(targetURL, { method: 'POST', body: JSON.stringify(payload) });
+                let resData = await response.json();
+                if(resData.result !== 'success') hasError = true;
+            } catch(e) {
+                hasError = true;
+            }
+        }
+
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+
+        if(hasError) {
+            alert("Terdapat ralat pada sesetengah sesi. Pastikan sambungan internet stabil dan cuba lagi.");
+        } else {
+            alert("Berjaya! Kesemua 6 markah sesi telah disimpan ke pangkalan data.");
+        }
+        loadFillStatus();
+    }
+    
+    // Fungsi Update Jadual Semasa Menaip (OnInput) untuk Headcount Matrix
+    function updateHcRow(inp, session, cls, name, sub, gid) {
+        let v = inp.value.toUpperCase();
+        if(v!=='TH' && isNaN(v) && v!=='') { inp.value=''; return; }
+        if(v>100) inp.value=100;
+        let g = calculateGrade(v);
+        let el = document.getElementById(gid); 
+        el.innerText = g || ''; 
+        el.className = 'grade-box ' + (g ? 'g-'+g : '');
+        
+        // Simpan ke DB lokal serta merta
+        if(!db[session]) db[session]={};
+        if(!db[session][cls]) db[session][cls]={};
+        if(!db[session][cls][name]) db[session][cls][name]={};
+        
+        if(v !== '') {
+            db[session][cls][name][sub] = { mark: v, grade: g };
+        } else {
+            if(db[session][cls][name][sub]) delete db[session][cls][name][sub];
+        }
+        localStorage.setItem('sistemMarkahDB', JSON.stringify(db));
+    }
+    
+    function generateHeadcountMatrix() {
+        const cls = document.getElementById('hcClassSelect').value;
+        const sub = document.getElementById('hcSubjectSelect').value;
+        const div = document.getElementById('headcountMatrixResult');
+        const btnSave = document.getElementById('btnSaveHeadcount');
+        
+        // Header kolum mengikut gambar Excel anda (Termasuk Ujian 1 dan Ujian 2)
+        const cols = [
+            {id:'TOV', short:'TOV', c:'hc-tov'},
+            {id:'PERTANDINGAN AKADEMIK 1 2026', short:'UJIAN 1', c:'hc-u1'},
+            {id:'OTI 1', short:'OTI 1', c:'hc-oti1'},
+            {id:'PERTANDINGAN AKADEMIK 2 2026', short:'UJIAN 2', c:'hc-u2'},
+            {id:'OTI 2', short:'OTI 2', c:'hc-oti2'},
+            {id:'ETR', short:'ETR', c:'hc-etr'}
+        ];
+        
+        div.classList.remove('hidden');
+        btnSave.disabled = false; // Bolehkan butang Simpan
+        
+        let h = `
+        <div class="d-none d-print-flex justify-content-between align-items-start mb-4">
+            <div class="text-start">
+                <h4 class="fw-bold m-0 text-uppercase">SEKOLAH : SJKC CHENG MING KENINGAU</h4>
+                <h4 class="fw-bold m-0 text-uppercase">ANALISIS DAN TARGET MATA PELAJARAN</h4>
+                <div class="mt-4">
+                    <h6 class="m-0 text-uppercase">MATA PELAJARAN : ${sub}</h6>
+                    <h6 class="m-0 text-uppercase">KELAS : ${cls}</h6>
+                </div>
+            </div>
+            <div>
+                <img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px; height: auto;">
+            </div>
+        </div>
+        <h5 class="mb-3 fw-bold d-print-none text-uppercase"><i class="fas fa-edit me-2"></i> Pengisian: ${sub} (${cls})</h5>
+        <div class="table-responsive"><table class="table table-bordered table-sm text-center align-middle" style="font-size:0.85rem; border-color:black;">
+        <thead class="table-dark">
+            <tr>
+                <th rowspan="2" style="width: 4%">BIL</th>
+                <th rowspan="2" class="text-start" style="width: 30%">NAMA</th>
+                ${cols.map(c=>`<th colspan="2" class="${c.c}">${c.short}</th>`).join('')}
+            </tr>
+            <tr>${cols.map(c=>`<th style="width: 5%">M</th><th style="width: 6%">G</th>`).join('')}</tr>
+        </thead><tbody>`;
+        
+        let displayCount = 0;
+        studentData[cls].forEach((n) => {
+            let isMuslim = muslimStudents.includes(n);
+            if (sub === 'PENDIDIKAN AGAMA ISLAM' && !isMuslim) return;
+            if (sub === 'PENDIDIKAN MORAL' && isMuslim) return;
+            
+            displayCount++;
+            h += `<tr><td>${displayCount}</td><td class="text-start text-uppercase" style="font-size:0.8rem">${n}</td>`;
+            
+            cols.forEach((c, cIndex) => {
+                let m = '', g = '';
+                if(db[c.id] && db[c.id][cls] && db[c.id][cls][n] && db[c.id][cls][n][sub]) { 
+                    m = db[c.id][cls][n][sub].mark; 
+                    g = db[c.id][cls][n][sub].grade; 
+                }
+                
+                let safeSessionId = c.id.replace(/\s+/g, '-');
+                h += `<td class="${c.c}" style="padding:0;">
+                        <input type="text" class="form-control text-center mx-auto px-1 py-0 hc-input-${safeSessionId} fw-bold" style="width:100%; height:32px; font-size:0.85rem; border:none; border-radius:0; background:transparent;" value="${m}" data-name="${n}" oninput="updateHcRow(this, '${c.id}', '${cls}', '${n}', '${sub}', 'hc-g-${displayCount}-${cIndex}')">
+                      </td>
+                      <td class="${c.c}"><span id="hc-g-${displayCount}-${cIndex}" class="grade-box ${g!==''?'g-'+g:''}">${g}</span></td>`;
+            });
+            h += `</tr>`;
+        });
+        
+        div.innerHTML = h + `</tbody></table></div>`;
+    }
+
+    function printHeadcountPDF() { 
+        if(document.getElementById('headcountMatrixResult').classList.contains('hidden')) {
+            alert('Sila jana paparan headcount terlebih dahulu.\n请先生成成绩预算表。');
+            return;
+        }
+        window.print(); 
+    }
+
+    // --- FUNGSI LAMA ISI MARKAH TETAP ADA (UNTUK INDIVIDU) ---
     function saveMarks() {
         const sess = getCurrentSession();
         const cls = document.getElementById('classSelect').value;
@@ -383,16 +579,7 @@
         });
         localStorage.setItem('sistemMarkahDB', JSON.stringify(db));
 
-        let targetURL = "";
-        let isHC = false;
-
-        if (["TOV", "OTI 1", "OTI 2", "ETR"].includes(sess)) {
-            targetURL = URL_HEADCOUNT;
-            isHC = true;
-        } else {
-            targetURL = URL_EXAM;
-            isHC = false;
-        }
+        let targetURL = ["TOV", "OTI 1", "OTI 2", "ETR"].includes(sess) ? URL_HEADCOUNT : URL_EXAM;
 
         const saveBtn = document.querySelector('button[onclick="saveMarks()"]');
         const originalText = saveBtn.innerHTML;
@@ -404,7 +591,7 @@
         fetch(targetURL, { method: 'POST', body: JSON.stringify(payload) })
         .then(res => res.json())
         .then(data => {
-            if(data.result === 'success') { alert(isHC ? 'Berjaya simpan ke HEADCOUNT!' : 'Berjaya simpan ke SHEET EXAM!'); } 
+            if(data.result === 'success') { alert('Berjaya simpan!'); } 
             else { alert('RALAT: ' + data.error); }
             saveBtn.innerHTML = originalText; saveBtn.disabled = false; loadFillStatus();
         })
@@ -421,7 +608,6 @@
             s.disabled = false; 
             const currentSub = s.value;
             s.innerHTML = '';
-            // Tapis subjek berdasarkan kelas yang dipilih
             getSubjectsForClass(c).forEach(sub => {
                 let o = document.createElement('option'); o.value = sub; o.innerText = sub;
                 if (sub === currentSub) o.selected = true;
@@ -434,7 +620,7 @@
             document.getElementById('markSheetArea').classList.add('hidden'); 
         }
     }
-    
+
     function renderMarkSheet() {
         const sess = getCurrentSession(), cls = document.getElementById('classSelect').value, sub = document.getElementById('subjectSelect').value;
         document.getElementById('markSheetArea').classList.remove('hidden');
@@ -458,7 +644,7 @@
             <td><div id="grade-${safeID}" class="grade-box ${g?'g-'+g:''}">${g}</div></td></tr>`;
         });
     }
-    
+
     function updateRow(inp, gid) {
         let v = inp.value.toUpperCase();
         if(v!=='TH' && isNaN(v) && v!=='') { inp.value=''; return; }
@@ -466,20 +652,20 @@
         let g = calculateGrade(v);
         let el = document.getElementById(gid); el.innerText=g; el.className='grade-box g-'+g;
     }
-    
+
     function calculateGrade(mark) {
         if (mark === 'TH' || mark === 'th') return 'TH';
         let m = parseFloat(mark);
         if (isNaN(m)) return '';
         return m >= 80 ? 'A' : m >= 65 ? 'B' : m >= 50 ? 'C' : m >= 40 ? 'D' : 'E';
     }
-    
+
     function exportData() {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
         const a = document.createElement('a'); a.href = dataStr; a.download = "SJKC_Backup.json";
         document.body.appendChild(a); a.click(); a.remove();
     }
-    
+
     function importData(input) {
         const file = input.files[0]; if(!file) return;
         const reader = new FileReader();
@@ -488,7 +674,7 @@
         };
         reader.readAsText(file);
     }
-    
+
     function loadFillStatus() {
         const sess = getCurrentSession(), c = document.getElementById('fillStatusList');
         if(!db[sess]) { c.innerHTML='<p class="text-muted">Tiada data.</p>'; return; }
@@ -506,7 +692,7 @@
         });
         c.innerHTML = h+'</ul>';
     }
-    
+
     function loadRCStudentList() {
         const cls = document.getElementById('rcClassSelect').value;
         const stuSel = document.getElementById('rcStudentSelect');
@@ -515,7 +701,7 @@
         else { stuSel.disabled = true; }
         document.getElementById('attPresent').value = ''; document.getElementById('attTotal').value = '';
     }
-    
+
     function loadAttendanceFromDB() {
         const sess = getCurrentSession(), cls = document.getElementById('rcClassSelect').value, name = document.getElementById('rcStudentSelect').value;
         if (db[sess] && db[sess][cls] && db[sess][cls][name] && db[sess][cls][name].attendance) {
@@ -523,7 +709,7 @@
             document.getElementById('attTotal').value = db[sess][cls][name].attendance.total;
         } else { document.getElementById('attPresent').value = ''; document.getElementById('attTotal').value = ''; }
     }
-    
+
     function getStudentRank(session, cls, name) {
         if(!db[session] || !db[session][cls]) return '-';
         let rankList = [];
@@ -540,7 +726,7 @@
         let rank = rankList.findIndex(x => x.name === name);
         return (rank !== -1) ? (rank + 1) + ' / ' + rankList.length : '-';
     }
-    
+
     function generateReportCard() {
         const session = getCurrentSession(), cls = document.getElementById('rcClassSelect').value, name = document.getElementById('rcStudentSelect').value;
         if(!cls || !name) { alert("Sila pilih kelas dan nama murid."); return; }
@@ -562,7 +748,6 @@
         const tbody = document.getElementById('rcTableBody'); tbody.innerHTML = '';
         let totalMarks = 0, subjectCount = 0;
         
-        // Pastikan hanya subjek yang sah untuk kelas ini disenaraikan (Buang Sejarah & RBT utk Tahun 1,2,3)
         const validSubjects = getSubjectsForClass(cls);
         
         validSubjects.forEach((sub, idx) => {
@@ -583,7 +768,7 @@
         document.getElementById('rcAttTotal').innerText = t;
         document.getElementById('rcAttPercent').innerText = t > 0 ? ((p/t)*100).toFixed(0) + '%' : '0%';
     }
-    
+
     function generateGrouping() {
         const session = getCurrentSession(), className = document.getElementById('groupClassSelect').value;
         const container = document.getElementById('groupingResult'), students = studentData[className];
@@ -616,45 +801,9 @@
         });
         container.innerHTML = html + `</tbody></table><div class="signature-box"><div class="row text-center"><div class="col-4"><p>Disediakan Oleh:</p><div class="sig-line"></div><p><strong>(GURU KELAS)</strong><br><span class="cn-text text-dark">班主任</span></p></div><div class="col-4"><p>Disemak Oleh:</p><div class="sig-line"></div><p><strong>(PK KURIKULUM)</strong><br><span class="cn-text text-dark">课程副校长</span></p></div><div class="col-4"><p>Disahkan Oleh:</p><div class="sig-line"></div><p><strong>(GURU BESAR)</strong><br><span class="cn-text text-dark">校长</span></p></div></div></div></div>`;
     }
-    
+
     function printGroupingPDF() { if(document.getElementById('groupingResult').classList.contains('hidden')) return; window.print(); }
-    
-    function printHeadcountPDF() { 
-        if(document.getElementById('headcountMatrixResult').classList.contains('hidden')) {
-            alert('Sila jana paparan headcount terlebih dahulu.\n请先生成成绩预算表。');
-            return;
-        }
-        window.print(); 
-    }
-    
-    function generateHeadcountMatrix() {
-        const cls = document.getElementById('hcClassSelect').value, sub = document.getElementById('hcSubjectSelect').value, div = document.getElementById('headcountMatrixResult');
-        const cols = [{id:'TOV',c:'hc-tov'},{id:'OTI 1',c:'hc-oti1'},{id:'PERTANDINGAN AKADEMIK 1 2026',c:'hc-u1'}, {id:'OTI 2',c:'hc-oti2'},{id:'PERTANDINGAN AKADEMIK 2 2026',c:'hc-u2'}, {id:'ETR',c:'hc-etr'}];
-        div.classList.remove('hidden');
-        let h = `
-        <div class="text-center mb-4 d-none d-print-block">
-            <h4 class="fw-bold">ANALISIS HEADCOUNT MURID <br><span class="cn-text text-dark mt-2" style="font-size:1.2em;">学生成绩预算分析</span></h4>
-            <h5 class="mt-3">Kelas: ${cls} &nbsp;|&nbsp; Subjek: ${sub}</h5>
-        </div>
-        <h5 class="mb-3 fw-bold d-print-none">Headcount: ${sub} (${cls})</h5>
-        <div class="table-responsive"><table class="table table-bordered table-sm text-center align-middle" style="font-size:0.85rem; border-color:black;"><thead class="table-dark"><tr><th rowspan="2">No</th><th rowspan="2" class="text-start">Nama</th>${cols.map(c=>`<th colspan="2" class="${c.c}">${c.id}</th>`).join('')}</tr><tr>${cols.map(c=>`<th>M</th><th>G</th>`).join('')}</tr></thead><tbody>`;
-        let displayCount = 0;
-        studentData[cls].forEach((n) => {
-            let isMuslim = muslimStudents.includes(n);
-            if (sub === 'PENDIDIKAN AGAMA ISLAM' && !isMuslim) return;
-            if (sub === 'PENDIDIKAN MORAL' && isMuslim) return;
-            displayCount++;
-            h+=`<tr><td>${displayCount}</td><td class="text-start fw-bold">${n}</td>`;
-            cols.forEach(c => {
-                let m='-',g='-';
-                if(db[c.id] && db[c.id][cls] && db[c.id][cls][n] && db[c.id][cls][n][sub]) { m=db[c.id][cls][n][sub].mark; g=db[c.id][cls][n][sub].grade; }
-                h+=`<td>${m}</td><td><span class="grade-box ${g!=='-'?'g-'+g:''}">${g}</span></td>`;
-            });
-            h+=`</tr>`;
-        });
-        div.innerHTML = h+`</tbody></table></div>`;
-    }
-    
+
     function generateRanking() {
         const sess = getCurrentSession(), cls = document.getElementById('rankClassSelect').value, div = document.getElementById('rankingResult');
         if(!db[sess] || !db[sess][cls]) { div.innerHTML='<div class="alert alert-warning">Tiada data untuk sesi ini.</div>'; return; }
@@ -669,7 +818,7 @@
         arr.forEach((x,i)=>h+=`<tr><td><span class="badge bg-primary rounded-pill px-3 py-2">${i+1}</span></td><td class="fw-bold">${x.n}</td><td>${x.t}</td><td>${x.a}</td></tr>`);
         div.innerHTML=h+`</tbody></table></div>`;
     }
-    
+
     function searchStudent() {
         const k = document.getElementById('searchInput').value.toUpperCase(), div = document.getElementById('searchResult');
         if(k.length<3){alert('Sila masukkan sekurang-kurangnya 3 huruf.');return;} let h='';
