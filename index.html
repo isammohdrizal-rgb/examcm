@@ -671,8 +671,9 @@
     
     function updateHcRow(inp, session, cls, name, sub, gid) {
         let v = inp.value.toUpperCase();
-        if(v!=='TH' && isNaN(v) && v!=='') { inp.value=''; return; }
-        if(v>100) inp.value=100;
+        if(v !== 'T' && v !== 'TH' && isNaN(v) && v !== '') { inp.value=''; return; }
+        if(v > 100) { inp.value = 100; v = 100; }
+        
         let g = calculateGrade(v);
         let el = document.getElementById(gid); 
         el.innerText = g || ''; 
@@ -861,10 +862,11 @@
 
     function updateRow(inp, gid) {
         let v = inp.value.toUpperCase();
-        if(v!=='TH' && isNaN(v) && v!=='') { inp.value=''; return; }
-        if(v>100) inp.value=100;
+        if(v !== 'T' && v !== 'TH' && isNaN(v) && v !== '') { inp.value=''; return; }
+        if(v > 100) { inp.value = 100; v = 100; }
+        
         let g = calculateGrade(v);
-        let el = document.getElementById(gid); el.innerText=g; el.className='grade-box g-'+g;
+        let el = document.getElementById(gid); el.innerText=g; el.className='grade-box ' + (g?'g-'+g:'');
     }
 
     function calculateGrade(mark) {
