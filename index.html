@@ -56,24 +56,10 @@
         #mainApp { display: none; } 
         
         /* Sidebar Baru (Gelap Sikit & Ada Animasi) */
-        .sidebar { 
-            background: linear-gradient(180deg, #0c2646 0%, #1b4b8a 100%); 
-            min-height: 100vh; color: white; 
-            box-shadow: 4px 0 25px rgba(0,0,0,0.15); 
-            z-index: 10; padding-top: 20px;
-            position: relative; 
-            overflow: hidden;
-        }
-        
-        /* Animasi Pendidikan Terapung pada Sidebar */
+        .sidebar { background: linear-gradient(180deg, #0c2646 0%, #1b4b8a 100%); min-height: 100vh; color: white; box-shadow: 4px 0 25px rgba(0,0,0,0.15); z-index: 10; padding-top: 20px; position: relative; overflow: hidden; }
         .sidebar-shapes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .sidebar-shapes i { position: absolute; color: rgba(255, 255, 255, 0.06); font-size: 1.5rem; animation: floatEdu linear infinite; bottom: -50px; }
-        @keyframes floatEdu {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-        }
+        @keyframes floatEdu { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
         .sidebar-shapes i:nth-child(1) { left: 15%; animation-duration: 18s; animation-delay: 0s; font-size: 2rem; }
         .sidebar-shapes i:nth-child(2) { left: 85%; animation-duration: 22s; animation-delay: 3s; font-size: 1.2rem; }
         .sidebar-shapes i:nth-child(3) { left: 45%; animation-duration: 25s; animation-delay: 1s; font-size: 1.8rem; }
@@ -89,20 +75,14 @@
         .nav-link.active .cn-text { color: #6c757d !important; }
         .sidebar hr { border-color: rgba(255,255,255,0.2); margin: 20px 15px; position: relative; z-index: 2; }
         
-        /* Kad & Elemen Biasa */
         .card { border-radius: 18px; border: none; box-shadow: 0 8px 25px rgba(0,0,0,0.03); margin-bottom: 20px; transition: transform 0.3s ease; position: relative; z-index: 2; }
         .card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.05); }
-        
-        /* Kad Statistik Utama */
         .stat-card { border-radius: 18px; border: none; color: white; position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.08); transition: transform 0.3s ease; }
         .stat-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
-        .stat-blue { background: linear-gradient(135deg, #0052D4, #4364F7); }
-        .stat-green { background: linear-gradient(135deg, #11998e, #38ef7d); }
-        .stat-cyan { background: linear-gradient(135deg, #00c6ff, #0072ff); }
+        .stat-blue { background: linear-gradient(135deg, #0052D4, #4364F7); } .stat-green { background: linear-gradient(135deg, #11998e, #38ef7d); } .stat-cyan { background: linear-gradient(135deg, #00c6ff, #0072ff); }
         .stat-card::after { content: ''; position: absolute; top: -20px; right: -20px; width: 120px; height: 120px; background: rgba(255,255,255,0.15); border-radius: 50%; }
         .stat-card::before { content: ''; position: absolute; bottom: -30px; right: 40px; width: 80px; height: 80px; background: rgba(255,255,255,0.1); border-radius: 50%; }
         
-        /* Input & Butang */
         .form-control, .form-select, .input-group-text { border-radius: 10px; border: 1px solid #dee2e6; }
         .form-control:focus, .form-select:focus { box-shadow: 0 0 0 0.25rem rgba(0, 82, 212, 0.15); border-color: #0052D4; }
         .btn { border-radius: 10px; font-weight: 500; transition: all 0.3s ease; }
@@ -111,11 +91,9 @@
         .btn-success { background: linear-gradient(135deg, #11998e, #38ef7d); border: none; }
         .btn-danger { background: linear-gradient(135deg, #ff416c, #ff4b2b); border: none; }
         
-        /* Jadual */
         .table-dark th { background-color: #0c2646 !important; color: white !important; border-color: #1b4b8a !important; }
         .table-custom-border { border-radius: 15px; overflow: hidden; border: 1px solid #e0e0e0; }
 
-        /* Gred & Elemen Lama */
         .grade-box { font-weight: bold; padding: 2px 6px; border-radius: 6px; text-align: center; color: white; font-size: 0.85em; display: inline-block; min-width: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .g-A { background-color: #28a745; } .g-B { background-color: #17a2b8; } .g-C { background-color: #ffc107; color: black; } .g-D { background-color: #fd7e14; } .g-E { background-color: #dc3545; } .g-TH { background-color: #6c757d; }
         .hc-tov { background-color: #f1f3f5; color: black; } .hc-u1 { background-color: #e3f2fd; color: black; } .hc-oti1 { background-color: #fff3e0; color: black; } .hc-u2 { background-color: #e8f5e9; color: black; } .hc-oti2 { background-color: #fce4ec; color: black; } .hc-etr { background-color: #f3e5f5; color: black; }
@@ -123,35 +101,45 @@
         .cn-text { display: block; font-size: 0.9em; font-weight: normal; opacity: 0.85; line-height: 1.2; margin-top: 2px; }
         .cn-nav-text { margin-left: 32px; opacity: 0.7; } 
 
-        /* Custom Scrollbar */
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
         
-        /* Animation Input Kosong */
         @keyframes shakeAnimation { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
         .input-error { border: 2px solid #dc3545 !important; background-color: #f8d7da !important; animation: shakeAnimation 0.4s ease-in-out; }
+        
+        .sig-spacer { height: 60px; }
 
         @media print {
+            @page { margin: 10mm; } /* FORCE MINIMAL MARGIN ON A4 */
             .no-print { display: none !important; } .sidebar { display: none !important; }
             .main-content { width: 100% !important; margin: 0 !important; padding: 0 !important; }
             #loginOverlay { display: none !important; } #mainApp { display: block !important; }
-            body { background-color: white; } .card { box-shadow: none; border: none; }
+            body { background-color: white; font-size: 11pt !important; } 
+            .card { box-shadow: none; border: none; }
             body > * { display: none; } #mainApp { display: block; }
             .container-fluid { padding: 0; } .row { margin: 0; } .col-md-10 { width: 100%; max-width: 100%; flex: 0 0 100%; padding: 0; }
             .content-section { display: none; } .content-section:not(.hidden) { display: block; }
             #reportCardPreview { display: block !important; position: absolute; top: 0; left: 0; width: 100%; }
-            #printTarget, #printOverallTarget { border: none !important; padding: 15px !important; }
+            #printTarget, #printOverallTarget { border: none !important; padding: 0 !important; }
             .table-responsive { overflow: visible !important; } 
             input[type="text"].form-control { border: none !important; background: transparent !important; padding: 0 !important; box-shadow: none !important; outline: none !important; }
             .table-dark th { background-color: #212529 !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .hc-tov { background-color: #e2e3e5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-u1 { background-color: #d1e7dd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-oti1 { background-color: #f8d7da !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-u2 { background-color: #cff4fc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-oti2 { background-color: #fff3cd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-etr { background-color: #cfe2ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .grade-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none; }
             
-            /* Tetapan khas untuk Kad Pelaporan ketika dicetak supaya fit 1 page */
-            .rc-info-table { margin-bottom: 10px !important; }
-            .rc-signature { margin-top: 15px !important; padding-top: 5px !important; page-break-inside: avoid !important; break-inside: avoid !important; }
-            .rc-header { padding-bottom: 10px !important; margin-bottom: 15px !important; }
+            /* -- TETAPAN KHAS UNTUK FIT 1 PAGE MASA PRINT (REPORT CARD) -- */
+            #printTarget .table td, #printTarget .table th { padding: 2px 4px !important; font-size: 0.85rem !important; }
+            #printTarget .rc-header { padding-bottom: 5px !important; margin-bottom: 5px !important; }
+            #printTarget .rc-header h3 { font-size: 1.2rem !important; margin-bottom: 0 !important; }
+            #printTarget .rc-header h5 { font-size: 0.9rem !important; margin-top: 0 !important; }
+            #printTarget .rc-header img { width: 75px !important; max-width: 75px !important; margin-right: 15px !important; }
+            #printTarget .rc-info-table { margin-bottom: 5px !important; font-size: 0.85rem !important; }
+            #printTarget .mt-4 { margin-top: 10px !important; }
+            #printTarget .col-6 .table td { padding: 1px 4px !important; font-size: 0.85rem !important; }
+            #printTarget .rc-signature { margin-top: 10px !important; padding-top: 0 !important; }
+            #printTarget .sig-spacer { height: 35px !important; } /* Shrink gap for sign area */
+            #printTarget .cn-text { font-size: 0.75em !important; margin-top: 1px !important; }
         }
     </style>
 </head>
@@ -206,16 +194,8 @@
         <!-- SIDEBAR BARU -->
         <div class="col-md-2 sidebar px-2 no-print">
             
-            <!-- Animasi Pendidikan Terapung -->
             <div class="sidebar-shapes">
-                <i class="fas fa-pencil-alt"></i>
-                <i class="fas fa-book"></i>
-                <i class="fas fa-divide"></i>
-                <i class="fas fa-plus"></i>
-                <i class="fas fa-ruler-combined"></i>
-                <i class="fas fa-minus"></i>
-                <i class="fas fa-square-root-alt"></i>
-                <i class="fas fa-calculator"></i>
+                <i class="fas fa-pencil-alt"></i><i class="fas fa-book"></i><i class="fas fa-divide"></i><i class="fas fa-plus"></i><i class="fas fa-ruler-combined"></i><i class="fas fa-minus"></i><i class="fas fa-square-root-alt"></i><i class="fas fa-calculator"></i>
             </div>
             
             <div style="position: relative; z-index: 2;">
@@ -269,7 +249,6 @@
                     <div class="bg-white rounded-pill px-4 py-2 shadow-sm border"><i class="far fa-calendar-alt text-primary me-2"></i><span id="currentSessionDisplay" class="fw-bold text-dark small"></span></div>
                 </div>
                 
-                <!-- Statistik Kad Asas Baru -->
                 <div class="row g-3">
                     <div class="col-md-4">
                         <div class="stat-card stat-blue p-4 h-100 d-flex flex-column justify-content-between">
@@ -294,7 +273,6 @@
                     </div>
                 </div>
 
-                <!-- Graf & Senarai Murid Meningkat -->
                 <div class="row mt-4 g-3">
                     <div class="col-md-8">
                         <div class="card p-4 h-100">
@@ -315,7 +293,6 @@
                     </div>
                 </div>
 
-                <!-- Prestasi Kelas & Status Pengisian -->
                 <div class="row mt-4 g-3">
                     <div class="col-md-8">
                         <div class="card p-4 h-100">
@@ -416,7 +393,7 @@
                     <div class="bg-light p-3 border-bottom d-flex justify-content-end no-print"><button class="btn btn-danger shadow-sm" onclick="window.print()"><i class="fas fa-print me-2"></i> CETAK PDF</button></div>
                     <div id="printTarget" class="bg-white p-4">
                         
-                        <!-- HEADER KAD PELAPORAN -->
+                        <!-- HEADER KAD PELAPORAN YANG DIKEMASKINI -->
                         <div class="rc-header d-flex align-items-center mb-3 pb-2" style="border-bottom: 2px solid black;">
                             <img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px !important; max-width: 100px !important; height: auto !important; margin-right: 20px;" onerror="this.style.display='none'">
                             <div>
@@ -454,7 +431,7 @@
                         <div class="rc-signature mt-4 pt-2" style="page-break-inside: avoid; break-inside: avoid;">
                             <div class="row text-center text-dark">
                                 <div class="col-4">
-                                    <div style="height: 50px;"></div>
+                                    <div class="sig-spacer"></div>
                                     <div style="border-top: 1px solid black; width: 85%; margin: 0 auto; padding-top: 5px;">
                                         <span id="rcGuruKelasName" class="fw-bold d-block text-uppercase" style="font-size:0.9em;"></span>
                                         <strong style="font-size:0.9em;">GURU KELAS</strong><br>
@@ -462,7 +439,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <div style="height: 50px;"></div>
+                                    <div class="sig-spacer"></div>
                                     <div style="border-top: 1px solid black; width: 85%; margin: 0 auto; padding-top: 5px;">
                                         <span class="fw-bold d-block text-uppercase" style="font-size:0.9em;">CHEE SUI FUNG</span>
                                         <strong style="font-size:0.9em;">GURU BESAR</strong><br>
@@ -470,7 +447,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <div style="height: 50px;"></div>
+                                    <div class="sig-spacer"></div>
                                     <div style="border-top: 1px solid black; width: 85%; margin: 0 auto; padding-top: 5px;">
                                         <span class="fw-bold d-block text-uppercase" style="font-size:0.9em;">&nbsp;</span>
                                         <strong style="font-size:0.9em;">IBU BAPA / PENJAGA</strong><br>
@@ -1166,7 +1143,6 @@
         document.getElementById('rcName').innerText = name; 
         document.getElementById('rcClass').innerText = cls;
         
-        // Tetapkan nama Guru Kelas berdasarkan kelas
         document.getElementById('rcGuruKelasName').innerText = guruKelasMap[cls] || "";
 
         const tbody = document.getElementById('rcTableBody'); tbody.innerHTML = '';
