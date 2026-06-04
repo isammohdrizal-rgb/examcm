@@ -411,16 +411,16 @@
                     <div class="bg-light p-3 border-bottom d-flex justify-content-end no-print"><button class="btn btn-danger shadow-sm" onclick="window.print()"><i class="fas fa-print me-2"></i> CETAK PDF</button></div>
                     <div id="printTarget" class="bg-white p-5">
                         
-                        <!-- HEADER KAD PELAPORAN YANG DIBETULKAN (HINDAR LOGO GERGASI SEMASA PRINT) -->
+                        <!-- HEADER KAD PELAPORAN -->
                         <div class="d-flex align-items-center mb-3 pb-3" style="border-bottom: 2px solid black;">
                             <img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px !important; max-width: 100px !important; height: auto !important; margin-right: 20px;" onerror="this.style.display='none'">
                             <div>
-                                <h3 class="fw-bold mb-0 text-uppercase" style="font-size: 1.5rem;">SJK(C) CHENG MING</h3>
-                                <h5 id="rcSessionTitle" class="mt-2 fw-bold text-uppercase mb-0" style="font-size: 1rem;">PERTANDINGAN AKADEMIK 1 2026</h5>
+                                <h3 class="fw-bold mb-0 text-uppercase text-dark" style="font-size: 1.5rem;">SJK(C) CHENG MING</h3>
+                                <h5 id="rcSessionTitle" class="mt-2 fw-bold text-uppercase mb-0 text-dark" style="font-size: 1rem;">PERTANDINGAN AKADEMIK 1 2026</h5>
                             </div>
                         </div>
                         
-                        <table class="rc-info-table w-100 mb-4"><tr><td width="15%">NAMA:</td><td width="45%" style="border-bottom: 1px dotted #000;" id="rcName" class="text-uppercase text-primary fs-5"></td><td width="10%">KELAS:</td><td width="30%" style="border-bottom: 1px dotted #000;" id="rcClass" class="text-primary fs-5"></td></tr></table>
+                        <table class="rc-info-table w-100 mb-4 text-dark"><tr><td width="15%">NAMA:</td><td width="45%" style="border-bottom: 1px dotted #000;" id="rcName" class="text-uppercase text-dark fw-bold fs-5"></td><td width="10%">KELAS:</td><td width="30%" style="border-bottom: 1px dotted #000;" id="rcClass" class="text-dark fw-bold fs-5"></td></tr></table>
                         <table class="table table-bordered table-sm text-center align-middle" style="border-color: black;">
                             <thead class="table-dark">
                                 <tr><th width="10%" class="py-2">BIL</th><th class="text-start py-2">MATA PELAJARAN <br><span class="cn-text text-white-50 text-start">科目</span></th><th width="15%" class="py-2">MARKAH <br><span class="cn-text text-white-50">分数</span></th><th width="10%" class="py-2">GRED <br><span class="cn-text text-white-50">等级</span></th></tr>
@@ -430,27 +430,51 @@
                         <div class="row mt-4">
                             <div class="col-6">
                                 <table class="table table-bordered table-sm" style="border-color:black;">
-                                    <tr><td class="bg-light fw-bold py-2">JUMLAH MARKAH <br><span class="cn-text text-muted">总分数</span></td><td id="rcTotalMarks" class="text-center align-middle fw-bold fs-4 text-primary"></td></tr>
-                                    <tr><td class="bg-light fw-bold py-2">PURATA <br><span class="cn-text text-muted">平均</span></td><td id="rcAverage" class="text-center align-middle fw-bold fs-4 text-primary"></td></tr>
-                                    <tr><td class="bg-light fw-bold py-2">KEDUDUKAN DALAM KELAS <br><span class="cn-text text-muted">班级排名</span></td><td id="rcRank" class="text-center align-middle fw-bold fs-4 text-primary"></td></tr>
+                                    <tr><td class="bg-light fw-bold py-2 text-dark">JUMLAH MARKAH <br><span class="cn-text text-muted">总分数</span></td><td id="rcTotalMarks" class="text-center align-middle fw-bold fs-4 text-dark"></td></tr>
+                                    <tr><td class="bg-light fw-bold py-2 text-dark">PURATA <br><span class="cn-text text-muted">平均</span></td><td id="rcAverage" class="text-center align-middle fw-bold fs-4 text-dark"></td></tr>
+                                    <tr><td class="bg-light fw-bold py-2 text-dark">KEDUDUKAN DALAM KELAS <br><span class="cn-text text-muted">班级排名</span></td><td id="rcRank" class="text-center align-middle fw-bold fs-4 text-dark"></td></tr>
                                 </table>
                             </div>
                             <div class="col-6">
                                 <table class="table table-bordered table-sm" style="border-color:black;">
-                                    <tr><td colspan="2" class="bg-light text-center fw-bold py-2">REKOD KEHADIRAN <br><span class="cn-text text-muted" style="display:inline-block">出席记录</span></td></tr>
-                                    <tr><td class="fw-bold py-2">BILANGAN HARI HADIR <br><span class="cn-text text-muted">出席天数</span></td><td id="rcAttPresent" class="text-center align-middle fs-5">0</td></tr>
-                                    <tr><td class="fw-bold py-2">JUMLAH HARI PERSEKOLAHAN <br><span class="cn-text text-muted">总上课天数</span></td><td id="rcAttTotal" class="text-center align-middle fs-5">0</td></tr>
-                                    <tr><td class="bg-light fw-bold py-2">PERATUS KEHADIRAN <br><span class="cn-text text-muted">出席率</span></td><td id="rcAttPercent" class="text-center align-middle fw-bold fs-5">0%</td></tr>
+                                    <tr><td colspan="2" class="bg-light text-center fw-bold py-2 text-dark">REKOD KEHADIRAN <br><span class="cn-text text-muted" style="display:inline-block">出席记录</span></td></tr>
+                                    <tr><td class="fw-bold py-2 text-dark">BILANGAN HARI HADIR <br><span class="cn-text text-muted">出席天数</span></td><td id="rcAttPresent" class="text-center align-middle fs-5 text-dark">0</td></tr>
+                                    <tr><td class="fw-bold py-2 text-dark">JUMLAH HARI PERSEKOLAHAN <br><span class="cn-text text-muted">总上课天数</span></td><td id="rcAttTotal" class="text-center align-middle fs-5 text-dark">0</td></tr>
+                                    <tr><td class="bg-light fw-bold py-2 text-dark">PERATUS KEHADIRAN <br><span class="cn-text text-muted">出席率</span></td><td id="rcAttPercent" class="text-center align-middle fw-bold fs-5 text-dark">0%</td></tr>
                                 </table>
                             </div>
                         </div>
-                        <div class="rc-signature mt-5">
-                            <div class="row text-center">
-                                <div class="col-4"><div class="rc-sig-line"></div><p><strong>GURU KELAS</strong><br><span class="cn-text mt-1 text-dark">班主任</span></p></div>
-                                <div class="col-4"><div class="rc-sig-line"></div><p><strong>GURU BESAR</strong><br><span class="cn-text mt-1 text-dark">校长</span></p></div>
-                                <div class="col-4"><div class="rc-sig-line"></div><p><strong>IBU BAPA / PENJAGA</strong><br><span class="cn-text mt-1 text-dark">父母 / 监护人</span></p></div>
+                        
+                        <!-- RUANGAN TANDATANGAN YANG DIBETULKAN -->
+                        <div class="rc-signature mt-5 pt-4">
+                            <div class="row text-center text-dark">
+                                <div class="col-4">
+                                    <div style="height: 60px;"></div> <!-- Ruang untuk tandatangan -->
+                                    <div style="border-top: 1px solid black; width: 85%; margin: 0 auto; padding-top: 5px;">
+                                        <span id="rcGuruKelasName" class="fw-bold d-block text-uppercase" style="font-size:0.9em;"></span>
+                                        <strong style="font-size:0.9em;">GURU KELAS</strong><br>
+                                        <span class="cn-text mt-1 text-dark" style="font-size:0.8em;">班主任</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div style="height: 60px;"></div> <!-- Ruang untuk tandatangan -->
+                                    <div style="border-top: 1px solid black; width: 85%; margin: 0 auto; padding-top: 5px;">
+                                        <span class="fw-bold d-block text-uppercase" style="font-size:0.9em;">CHEE SUI FUNG</span>
+                                        <strong style="font-size:0.9em;">GURU BESAR</strong><br>
+                                        <span class="cn-text mt-1 text-dark" style="font-size:0.8em;">校长</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div style="height: 60px;"></div> <!-- Ruang untuk tandatangan -->
+                                    <div style="border-top: 1px solid black; width: 85%; margin: 0 auto; padding-top: 5px;">
+                                        <span class="fw-bold d-block text-uppercase" style="font-size:0.9em;">&nbsp;</span>
+                                        <strong style="font-size:0.9em;">IBU BAPA / PENJAGA</strong><br>
+                                        <span class="cn-text mt-1 text-dark" style="font-size:0.8em;">父母 / 监护人</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -579,6 +603,16 @@
         "TAHUN 6": ["AARON KING WEN SHENG 金文圣", "ADIB ARYAN 叶艾狄", "ALEXSSA MARADONA 艾莉莎", "AMBER ROSE 安蓓儿", "AMNI NURADRIANA HUSNA YAP 叶玉娜", "ANNABELLE MERCO 安贝拉", "ANNAMARIE SOPHIA JIMY 安娜美", "CALVIN LEE YI BIN 李毅彬", "CASSANDRA CHLOE CHRISTOPER 柯珊荙", "CHARLENE MIEA JIMMY 巧琳", "DAVIN LO KETT FUNG 罗国峰", "DEANIELL DEEANN DISIUS 德尼尔", "EALJOY ALBERT 尔齐", "EALVIANIE EVERDIN 尔妮", "ELYN HO SZE XUAN 何芝琁", "FIONNY ARVINA JOHNNY 谭芷霓", "HYERIN NIECHELL YOLEK 何灵", "IMANUEL LIONEL HIMBULAN 李诺尔", "JAYDEN CHIN TZE FENG 陈子峰", "JAYVRYAN JUNIOR 杰莱恩", "JAZLYN ONG QIAO XUN 翁巧洵", "MAVERICK CHESTER MARK 马富利", "NEOLITTA SHAYNE SIMPLISIUS 施娴", "NOUFAL ARFAKSYADZ 诺法", "NUR AZZAHRA SOFIEA 苏菲亚", "RYNDLEE RODRIGO 仁迪", "SHARONITTA WONG 黄雪柔", "SHERYLYNIEKA DILLESEN 施尼卡", "VICKLY DEEXLEE HARWANDRI 伟特利", "WYINCHAELL AUDREY ALEXIUS 玟萱"]
     };
     studentData["TAHUN 3"] = studentData["TAHUN 3"].filter(n => n !== "ALISHA HANANIA BINTI MOHD AZRIN");
+    
+    // Pemetaan Nama Guru Kelas
+    const guruKelasMap = {
+        "TAHUN 1": "LIAW SHIAW WEI",
+        "TAHUN 2": "EVYLIN YUTIS",
+        "TAHUN 3": "FONG XUE LI",
+        "TAHUN 4": "BITA EDWIN",
+        "TAHUN 5": "LO NYUK YEE",
+        "TAHUN 6": "TOW ERN LI"
+    };
     
     let db = {};
     const muslimStudents = ["ARYAND ARRIQINN BIN OCTOVYIANDYI 艾彦", "GRIXTON LEE BIN ABDUL HAYY 李关隼", "MIQAILA AAIRA BINTI MAC ANDEON 艾菈", "MOHAMAD AZIZI BIN AHMAD FADZIL 阿齐治", "MUHAMMAD ISAAC ISKANDAR BIN KAMISIN 艾泽", "NAAILA ADRIAANA FO WEI YI 贺薇怡", "NUR FALISHA KHAYLA BINTI MUHAMMAD KHAIRY 法丽莎", "NURUL ZARA ZAHARA BINTI JEFFREY 扎哈拉", "RAISYA HAZIYAH BINTI MOHAMAD RASYID 拉依莎", "AMNI ANDHIKA YAP 叶迪卡", "DEVONE LEE BINTI ABDUL HAYY 李可欣", "IZZRAF ARFAKSYADZ 伊志拉", "MUHAMMAD ARIF PUTRA 阿利夫", "MUHAMMAD FAREED QARIZH 柯利式", "MUHAMMAD FAZLEESYAH 华利士", "NORMA JANE BINTI ADAM GINDA 罗美娟", "NUR NAYYARA ASSYIFA 娜雅拉", "NUR SHELIENA BINTI ABDUL ALIY 沈丽娜", "AARON LIM FUNG BIN ABDULLAH 林枫", "AFEEF IQHWAN BIN ABDULLAH 艾非宜", "AIEZZANN AZZRYIEL BIN OCTOVYIANDYI 艾沾", "ARSHAN MIKHAIL KANG 江艾善", "HAWA EYRDEENA BINTI HODHORI 哈娃", "MUHAMMAD AFNAN BIN ERWAN 周艾南", "MUHAMMAD AISY AZKA BIN ABDUL HAADI 艾习", "MUHAMMAD ARFAN BIN ERWAN 周艾凡", "MUHAMMAD ISKANDAR BIN KAMISIN 伊卡达", "NUR AINN BINTI RAINOH 安拉诺", "NURUL ZARA ZULIKAH BINTI JEFFREY 朱莉卡", "RAQEF HAZREEL BIN MOHD HAFIZI 哈哲立", "SITI FAIQAH ZIHNI BINTI AHMAD FADZIL 娣菲卡", "WAFIYATUL AAISHAH BINTI SUFRIH ISAMUDIN 华菲雅", "ADAM LUTHFI SHAH BIN ABDULLAH 亚当", "AIEDANN ARRSYHAD 艾尔丹", "ANGELY RUTH BINTI ABDULLAH 安琪丽", "AWANGKU AEMAN ALVEE BIN AWANGKU AZWAN 艾曼", "DAYANG RYAMIEZA ALYA BINTI RAMZI 妲央", "NUR ADREANA QASEH BINTI JEFFRY 艾丽娜", "NUR FAIQAH KHALEEDA BINTI MUHAMMAD KHAIRY 奴菲卡", "NURRAIHANAH MIKAYLA BINTI RAHMAT JUWANTO 雷哈娜", "PUTRI MAGFIRAH BINTI MOHD ARIFFIN 麦菲拉", "ABDUL HABIB HARITH BIN ABDUL SAHIDI 哈比", "AMYLIA BINTI KAMISIN 艾美拉", "ARFAN MIKHAIL KANG 江艾凡", "DEAN MIFZAL LIEW BIN ABDULLAH 刘迪恩", "EDRY ISAAC CHIA 谢艾德", "FAHYM QUSHAIRY BIN FRANCIS 法杏", "IRFAN ARFAKSYADZ BIN MOHD JAPRI 伊凡", "MUHAMAD HAFEEZ RAHIM 哈菲兹", "NUR AINDREA NADIYA BINTI JOSAMIN@JASIMIN 安得拉", "NUR QHALLESHA ANAMI BINTI SAHARUL AZRIN 卡俐莎", "NUR SHAINE SEIAN BINTI ABDULLAH 郑雪莉", "NURSYAZWINA SALI BINTI ABDULLAH 莎薇娜", "ADIB ARYAN 叶艾狄", "AMNI NURADRIANA HUSNA YAP 叶玉娜", "NOUFAL ARFAKSYADZ 诺法", "NUR AZZAHRA SOFIEA 苏菲亚"];
@@ -1008,7 +1042,7 @@
         loadDashboardAnalytics();
     }
 
-    // --- FUNGSI MARKAH KESELURUHAN (BARU) ---
+    // --- FUNGSI MARKAH KESELURUHAN ---
     function generateOverallMarks() {
         const cls = document.getElementById('overallClassSelect').value;
         const sess = getCurrentSession();
@@ -1027,11 +1061,11 @@
         <div id="printOverallTarget">
             <div class="d-none d-print-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 2px solid black;">
                 <div class="text-start">
-                    <h4 class="fw-bold m-0 text-uppercase">SEKOLAH : SJKC CHENG MING KENINGAU</h4>
-                    <h5 class="fw-bold m-0 text-uppercase">MARKAH KESELURUHAN KELAS</h5>
+                    <h4 class="fw-bold m-0 text-uppercase text-dark">SEKOLAH : SJKC CHENG MING KENINGAU</h4>
+                    <h5 class="fw-bold m-0 text-uppercase text-dark">MARKAH KESELURUHAN KELAS</h5>
                     <div class="mt-2">
-                        <h6 class="m-0 text-uppercase">SESI : ${displaySess}</h6>
-                        <h6 class="m-0 text-uppercase">KELAS : ${cls}</h6>
+                        <h6 class="m-0 text-uppercase text-dark">SESI : ${displaySess}</h6>
+                        <h6 class="m-0 text-uppercase text-dark">KELAS : ${cls}</h6>
                     </div>
                 </div>
                 <div><img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px !important; max-width: 100px !important; height: auto;"></div>
@@ -1067,13 +1101,13 @@
                     if(m !== 'TH' && !isNaN(m) && m !== '') { total += parseFloat(m); count++; }
                 }
                 
-                let isFail = (g === 'E' || g === 'TH') ? 'text-danger fw-bold' : 'text-primary';
+                let isFail = (g === 'E' || g === 'TH') ? 'text-danger fw-bold' : 'text-dark fw-bold';
                 let displayTxt = m !== '' ? `${m} <span class="small text-muted opacity-75">(${g})</span>` : '-';
                 h += `<td class="${isFail}">${displayTxt}</td>`;
             });
 
             let avg = count > 0 ? (total / count).toFixed(2) : '0.00';
-            h += `<td class="fw-bold fs-6">${total > 0 ? total : '-'}</td><td class="fw-bold fs-6 text-success">${avg !== '0.00' ? avg : '-'}</td></tr>`;
+            h += `<td class="fw-bold fs-6 text-dark">${total > 0 ? total : '-'}</td><td class="fw-bold fs-6 text-dark">${avg !== '0.00' ? avg : '-'}</td></tr>`;
         });
 
         h += `</tbody></table></div></div>`;
@@ -1123,7 +1157,12 @@
         if (session === "PERTANDINGAN AKADEMIK 1 2026") displaySess = "PERTANDINGAN AKADEMIK 1 2026 <br><span class='cn-text d-inline-block mt-1' style='font-weight:normal; font-size:1.1em;'>2026年学术比赛（一）</span>";
         if (session === "PERTANDINGAN AKADEMIK 2 2026") displaySess = "PERTANDINGAN AKADEMIK 2 2026 <br><span class='cn-text d-inline-block mt-1' style='font-weight:normal; font-size:1.1em;'>2026年学术比赛（二）</span>";
         document.getElementById('rcSessionTitle').innerHTML = displaySess;
-        document.getElementById('rcName').innerText = name; document.getElementById('rcClass').innerText = cls;
+        
+        document.getElementById('rcName').innerText = name; 
+        document.getElementById('rcClass').innerText = cls;
+        
+        // Tetapkan nama Guru Kelas berdasarkan kelas
+        document.getElementById('rcGuruKelasName').innerText = guruKelasMap[cls] || "";
 
         const tbody = document.getElementById('rcTableBody'); tbody.innerHTML = '';
         let totalMarks = 0, subjectCount = 0, rowNum = 0; 
@@ -1135,11 +1174,18 @@
             
             rowNum++;
             let m = '-', g = '-';
-            if(db[session] && db[session][cls] && db[session][cls][name] && db[session][cls][name][sub]) { m = db[session][cls][name][sub].mark; g = db[session][cls][name][sub].grade; if(m !== 'TH' && !isNaN(m) && m !== '') { totalMarks += parseFloat(m); subjectCount++; } }
-            tbody.innerHTML += `<tr><td class="fw-bold text-muted">${rowNum}</td><td class="text-start fw-bold text-dark">${sub}</td><td class="fw-bold text-primary">${m}</td><td><span class="grade-box ${g!=='-'?'g-'+g:''}">${g}</span></td></tr>`;
+            if(db[session] && db[session][cls] && db[session][cls][name] && db[session][cls][name][sub]) { 
+                m = db[session][cls][name][sub].mark; g = db[session][cls][name][sub].grade; 
+                if(m !== 'TH' && !isNaN(m) && m !== '') { totalMarks += parseFloat(m); subjectCount++; } 
+            }
+            tbody.innerHTML += `<tr><td class="fw-bold text-muted">${rowNum}</td><td class="text-start fw-bold text-dark">${sub}</td><td class="fw-bold text-dark">${m}</td><td><span class="grade-box ${g!=='-'?'g-'+g:''}">${g}</span></td></tr>`;
         });
-        document.getElementById('rcTotalMarks').innerText = totalMarks.toFixed(0); document.getElementById('rcAverage').innerText = subjectCount > 0 ? (totalMarks/subjectCount).toFixed(2) : '0';
-        document.getElementById('rcRank').innerText = getStudentRank(session, cls, name); document.getElementById('rcAttPresent').innerText = p; document.getElementById('rcAttTotal').innerText = t; document.getElementById('rcAttPercent').innerText = t > 0 ? ((p/t)*100).toFixed(0) + '%' : '0%';
+        document.getElementById('rcTotalMarks').innerText = totalMarks.toFixed(0); 
+        document.getElementById('rcAverage').innerText = subjectCount > 0 ? (totalMarks/subjectCount).toFixed(2) : '0';
+        document.getElementById('rcRank').innerText = getStudentRank(session, cls, name); 
+        document.getElementById('rcAttPresent').innerText = p; 
+        document.getElementById('rcAttTotal').innerText = t; 
+        document.getElementById('rcAttPercent').innerText = t > 0 ? ((p/t)*100).toFixed(0) + '%' : '0%';
     }
 
     function generateGrouping() {
@@ -1161,11 +1207,11 @@
         let html = `<div id="printTarget"><div class="text-center mb-4"><h4 class="fw-bold">LAPORAN PENGELOMPOKAN MURID (5 SUBJEK TERAS) <br><span class="cn-text text-dark mt-2" style="font-size:1.2em;">学生分组报告</span></h4><h5>Sesi: ${session} | Kelas: ${className}</h5></div><div class="table-custom-border"><table class="table table-bordered table-sm text-center align-middle mb-0" style="font-size:0.9rem; border-color:#dee2e6;"><thead class="table-dark"><tr><th style="width:5%" class="py-2">No</th><th style="text-align:left;" class="py-2">Nama Murid</th><th class="py-2">BC</th><th class="py-2">BM</th><th class="py-2">BI</th><th class="py-2">MT</th><th class="py-2">SN</th><th class="py-2">Lulus</th></tr></thead><tbody class="bg-white">`;
         ['A', 'B', 'C', 'D', 'E', 'F'].forEach(grp => {
             if(groups[grp].length > 0) {
-                html += `<tr class="table-secondary"><td colspan="8" class="text-start fw-bold ps-3 py-2 text-primary">KELOMPOK ${grp} (Lulus ${groups[grp][0].count} Subjek)</td></tr>`;
+                html += `<tr class="table-secondary"><td colspan="8" class="text-start fw-bold ps-3 py-2 text-dark">KELOMPOK ${grp} (Lulus ${groups[grp][0].count} Subjek)</td></tr>`;
                 groups[grp].forEach((stu, idx) => {
                     html += `<tr><td class="text-muted fw-bold">${idx + 1}</td><td style="text-align:left;" class="fw-bold text-dark">${stu.name}</td>`;
-                    coreSubjects.forEach(sub => { let data = stu.res[sub]; let isFail = (data.g === 'E' || data.g === 'TH' || data.g === '-'); html += `<td class="${isFail ? 'text-fail' : 'text-primary fw-bold'}">${data.m}</td>`; });
-                    html += `<td class="fw-bold">${stu.count}/5</td></tr>`;
+                    coreSubjects.forEach(sub => { let data = stu.res[sub]; let isFail = (data.g === 'E' || data.g === 'TH' || data.g === '-'); html += `<td class="${isFail ? 'text-danger' : 'text-dark fw-bold'}">${data.m}</td>`; });
+                    html += `<td class="fw-bold text-dark">${stu.count}/5</td></tr>`;
                 });
             }
         });
@@ -1188,7 +1234,7 @@
         arr.forEach((x,i)=>{
             let rankBadge = i === 0 ? 'bg-warning text-dark' : i === 1 ? 'bg-secondary text-white' : i === 2 ? 'bg-danger text-white' : 'bg-primary text-white';
             let rankIcon = i < 3 ? '<i class="fas fa-medal me-1"></i>' : '';
-            h+=`<tr><td class="text-center"><span class="badge ${rankBadge} rounded-pill px-3 py-2 shadow-sm">${rankIcon} ${i+1}</span></td><td class="fw-bold text-dark text-start">${x.n}</td><td class="text-center fs-5 fw-bold text-primary">${x.t}</td><td class="text-center fs-5 fw-bold text-success">${x.a}</td></tr>`
+            h+=`<tr><td class="text-center"><span class="badge ${rankBadge} rounded-pill px-3 py-2 shadow-sm">${rankIcon} ${i+1}</span></td><td class="fw-bold text-dark text-start">${x.n}</td><td class="text-center fs-5 fw-bold text-dark">${x.t}</td><td class="text-center fs-5 fw-bold text-dark">${x.a}</td></tr>`
         });
         div.innerHTML=h+`</tbody></table></div></div>`;
     }
