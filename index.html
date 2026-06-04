@@ -141,12 +141,17 @@
             .container-fluid { padding: 0; } .row { margin: 0; } .col-md-10 { width: 100%; max-width: 100%; flex: 0 0 100%; padding: 0; }
             .content-section { display: none; } .content-section:not(.hidden) { display: block; }
             #reportCardPreview { display: block !important; position: absolute; top: 0; left: 0; width: 100%; }
-            #printTarget, #printOverallTarget { border: none !important; padding: 0 !important; }
+            #printTarget, #printOverallTarget { border: none !important; padding: 15px !important; }
             .table-responsive { overflow: visible !important; } 
             input[type="text"].form-control { border: none !important; background: transparent !important; padding: 0 !important; box-shadow: none !important; outline: none !important; }
             .table-dark th { background-color: #212529 !important; color: white !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .hc-tov { background-color: #e2e3e5 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-u1 { background-color: #d1e7dd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-oti1 { background-color: #f8d7da !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-u2 { background-color: #cff4fc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-oti2 { background-color: #fff3cd !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .hc-etr { background-color: #cfe2ff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .grade-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none; }
+            
+            /* Tetapan khas untuk Kad Pelaporan ketika dicetak supaya fit 1 page */
+            .rc-info-table { margin-bottom: 10px !important; }
+            .rc-signature { margin-top: 15px !important; padding-top: 5px !important; page-break-inside: avoid !important; break-inside: avoid !important; }
+            .rc-header { padding-bottom: 10px !important; margin-bottom: 15px !important; }
         }
     </style>
 </head>
@@ -409,10 +414,10 @@
                 
                 <div id="reportCardPreview" class="hidden card p-0 overflow-hidden">
                     <div class="bg-light p-3 border-bottom d-flex justify-content-end no-print"><button class="btn btn-danger shadow-sm" onclick="window.print()"><i class="fas fa-print me-2"></i> CETAK PDF</button></div>
-                    <div id="printTarget" class="bg-white p-5">
+                    <div id="printTarget" class="bg-white p-4">
                         
                         <!-- HEADER KAD PELAPORAN -->
-                        <div class="d-flex align-items-center mb-3 pb-3" style="border-bottom: 2px solid black;">
+                        <div class="rc-header d-flex align-items-center mb-3 pb-2" style="border-bottom: 2px solid black;">
                             <img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px !important; max-width: 100px !important; height: auto !important; margin-right: 20px;" onerror="this.style.display='none'">
                             <div>
                                 <h3 class="fw-bold mb-0 text-uppercase text-dark" style="font-size: 1.5rem;">SJK(C) CHENG MING</h3>
@@ -420,36 +425,36 @@
                             </div>
                         </div>
                         
-                        <table class="rc-info-table w-100 mb-4 text-dark"><tr><td width="15%">NAMA:</td><td width="45%" style="border-bottom: 1px dotted #000;" id="rcName" class="text-uppercase text-dark fw-bold fs-5"></td><td width="10%">KELAS:</td><td width="30%" style="border-bottom: 1px dotted #000;" id="rcClass" class="text-dark fw-bold fs-5"></td></tr></table>
-                        <table class="table table-bordered table-sm text-center align-middle" style="border-color: black;">
+                        <table class="rc-info-table w-100 mb-2 text-dark"><tr><td width="15%">NAMA:</td><td width="45%" style="border-bottom: 1px dotted #000;" id="rcName" class="text-uppercase text-dark fw-bold fs-5"></td><td width="10%">KELAS:</td><td width="30%" style="border-bottom: 1px dotted #000;" id="rcClass" class="text-dark fw-bold fs-5"></td></tr></table>
+                        <table class="table table-bordered table-sm text-center align-middle mb-2" style="border-color: black;">
                             <thead class="table-dark">
                                 <tr><th width="10%" class="py-2">BIL</th><th class="text-start py-2">MATA PELAJARAN <br><span class="cn-text text-white-50 text-start">科目</span></th><th width="15%" class="py-2">MARKAH <br><span class="cn-text text-white-50">分数</span></th><th width="10%" class="py-2">GRED <br><span class="cn-text text-white-50">等级</span></th></tr>
                             </thead>
                             <tbody id="rcTableBody"></tbody>
                         </table>
-                        <div class="row mt-4">
+                        <div class="row mt-3">
                             <div class="col-6">
-                                <table class="table table-bordered table-sm" style="border-color:black;">
-                                    <tr><td class="bg-light fw-bold py-2 text-dark">JUMLAH MARKAH <br><span class="cn-text text-muted">总分数</span></td><td id="rcTotalMarks" class="text-center align-middle fw-bold fs-4 text-dark"></td></tr>
-                                    <tr><td class="bg-light fw-bold py-2 text-dark">PURATA <br><span class="cn-text text-muted">平均</span></td><td id="rcAverage" class="text-center align-middle fw-bold fs-4 text-dark"></td></tr>
-                                    <tr><td class="bg-light fw-bold py-2 text-dark">KEDUDUKAN DALAM KELAS <br><span class="cn-text text-muted">班级排名</span></td><td id="rcRank" class="text-center align-middle fw-bold fs-4 text-dark"></td></tr>
+                                <table class="table table-bordered table-sm mb-0" style="border-color:black;">
+                                    <tr><td class="bg-light fw-bold py-1 text-dark">JUMLAH MARKAH <br><span class="cn-text text-muted">总分数</span></td><td id="rcTotalMarks" class="text-center align-middle fw-bold fs-5 text-dark"></td></tr>
+                                    <tr><td class="bg-light fw-bold py-1 text-dark">PURATA <br><span class="cn-text text-muted">平均</span></td><td id="rcAverage" class="text-center align-middle fw-bold fs-5 text-dark"></td></tr>
+                                    <tr><td class="bg-light fw-bold py-1 text-dark">KEDUDUKAN DALAM KELAS <br><span class="cn-text text-muted">班级排名</span></td><td id="rcRank" class="text-center align-middle fw-bold fs-5 text-dark"></td></tr>
                                 </table>
                             </div>
                             <div class="col-6">
-                                <table class="table table-bordered table-sm" style="border-color:black;">
-                                    <tr><td colspan="2" class="bg-light text-center fw-bold py-2 text-dark">REKOD KEHADIRAN <br><span class="cn-text text-muted" style="display:inline-block">出席记录</span></td></tr>
-                                    <tr><td class="fw-bold py-2 text-dark">BILANGAN HARI HADIR <br><span class="cn-text text-muted">出席天数</span></td><td id="rcAttPresent" class="text-center align-middle fs-5 text-dark">0</td></tr>
-                                    <tr><td class="fw-bold py-2 text-dark">JUMLAH HARI PERSEKOLAHAN <br><span class="cn-text text-muted">总上课天数</span></td><td id="rcAttTotal" class="text-center align-middle fs-5 text-dark">0</td></tr>
-                                    <tr><td class="bg-light fw-bold py-2 text-dark">PERATUS KEHADIRAN <br><span class="cn-text text-muted">出席率</span></td><td id="rcAttPercent" class="text-center align-middle fw-bold fs-5 text-dark">0%</td></tr>
+                                <table class="table table-bordered table-sm mb-0" style="border-color:black;">
+                                    <tr><td colspan="2" class="bg-light text-center fw-bold py-1 text-dark">REKOD KEHADIRAN <br><span class="cn-text text-muted" style="display:inline-block">出席记录</span></td></tr>
+                                    <tr><td class="fw-bold py-1 text-dark">BILANGAN HARI HADIR <br><span class="cn-text text-muted">出席天数</span></td><td id="rcAttPresent" class="text-center align-middle fs-6 text-dark">0</td></tr>
+                                    <tr><td class="fw-bold py-1 text-dark">JUMLAH HARI PERSEKOLAHAN <br><span class="cn-text text-muted">总上课天数</span></td><td id="rcAttTotal" class="text-center align-middle fs-6 text-dark">0</td></tr>
+                                    <tr><td class="bg-light fw-bold py-1 text-dark">PERATUS KEHADIRAN <br><span class="cn-text text-muted">出席率</span></td><td id="rcAttPercent" class="text-center align-middle fw-bold fs-5 text-dark">0%</td></tr>
                                 </table>
                             </div>
                         </div>
                         
-                        <!-- RUANGAN TANDATANGAN YANG DIBETULKAN -->
-                        <div class="rc-signature mt-5 pt-4">
+                        <!-- RUANGAN TANDATANGAN YANG DIBETULKAN (FIT 1 PAGE) -->
+                        <div class="rc-signature mt-4 pt-2" style="page-break-inside: avoid; break-inside: avoid;">
                             <div class="row text-center text-dark">
                                 <div class="col-4">
-                                    <div style="height: 60px;"></div> <!-- Ruang untuk tandatangan -->
+                                    <div style="height: 50px;"></div>
                                     <div style="border-top: 1px solid black; width: 85%; margin: 0 auto; padding-top: 5px;">
                                         <span id="rcGuruKelasName" class="fw-bold d-block text-uppercase" style="font-size:0.9em;"></span>
                                         <strong style="font-size:0.9em;">GURU KELAS</strong><br>
@@ -457,7 +462,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <div style="height: 60px;"></div> <!-- Ruang untuk tandatangan -->
+                                    <div style="height: 50px;"></div>
                                     <div style="border-top: 1px solid black; width: 85%; margin: 0 auto; padding-top: 5px;">
                                         <span class="fw-bold d-block text-uppercase" style="font-size:0.9em;">CHEE SUI FUNG</span>
                                         <strong style="font-size:0.9em;">GURU BESAR</strong><br>
@@ -465,7 +470,7 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <div style="height: 60px;"></div> <!-- Ruang untuk tandatangan -->
+                                    <div style="height: 50px;"></div>
                                     <div style="border-top: 1px solid black; width: 85%; margin: 0 auto; padding-top: 5px;">
                                         <span class="fw-bold d-block text-uppercase" style="font-size:0.9em;">&nbsp;</span>
                                         <strong style="font-size:0.9em;">IBU BAPA / PENJAGA</strong><br>
@@ -597,7 +602,7 @@
     const studentData = {
         "TAHUN 1": ["ABIGAIL HOGAN 艾比佳", "ALVIN EDWIN ALMENG 艾文", "ARYAND ARRIQINN BIN OCTOVYIANDYI 艾彦", "AVERY CHRISTEL YIH 易美丽", "CELINE LEE YEN 李妍", "CHEN YI QUAN 曾翊銓", "CHRISCY CLARE COSMAS 柯丽丝", "DEBORA ANIKIE ALEXCIUS 狄波菈", "DEJIMDINAROS MOO XIAO SHEUEN 巫晓萱", "DWAYNE ISAAC PALIKAT 邬韦文", "EABBY CHANZEL CHANBERLAN 陈琪琪", "EALVIE EVERDIN 艾薇", "ELIZ LOH SZE CHING 罗秄溱", "GRIXTON LEE BIN ABDUL HAYY 李关隼", "IVY VYONE JANUARIUS 艾玮", "MIQAILA AAIRA BINTI MAC ANDEON 艾菈", "MOHAMAD AZIZI BIN AHMAD FADZIL 阿齐治", "MUHAMMAD ISAAC ISKANDAR BIN KAMISIN 艾泽", "NAAILA ADRIAANA FO WEI YI 贺薇怡", "NUR FALISHA KHAYLA BINTI MUHAMMAD KHAIRY 法丽莎", "NURUL ZARA ZAHARA BINTI JEFFREY 扎哈拉", "QUEENCIE KING FUNG QIN 金凤勤", "RAISYA HAZIYAH BINTI MOHAMAD RASYID 拉依莎", "SHANELEY WONG 黄雪莉"],
         "TAHUN 2": ["AARON OCONELL WELFRED 亚伦", "ALDERCY RICHELLE REPIN 艾迪丝", "AMNI ANDHIKA YAP 叶迪卡", "ANGELO ADEEN AJINE 罗安泽", "CAYDEN WONG JI YUAN 王济源", "CHESTER KHOO 顾杰德", "CHLOE LIU SHIN YEE 刘欣怡", "CHRISTY CHEE ZI TING 徐紫婷", "DALTON NEIL LAZARUS 德尔登", "DARREN HO CHONG HENG 何宗恒", "DEJANTZEL MOO TECK WEI 巫德伟", "DEVONE LEE BINTI ABDUL HAYY 李可欣", "ELDEONLEE BIN ELGA 李迪恩", "ELLENNA AUDREY STEPHEN 伊丽娜", "EUXENE THAM YU QIN 谭宇芹", "EVELINA ELNI MERCO 伊韦娜", "FIONA JOHNNY 谭芷荃", "HANS JAVIER EFANDDY 汉斯", "IZZRAF ARFAKSYADZ 伊志拉", "JACQUEEN JACKSPENCE 洁可灵", "JESSE MATTHEW P ARCENA 杰西", "JONATHAN ISAAC MADIRA BAYLON 左纳登", "MCKELLEN KARL BIN MITCHEEL 麦克仁", "MUHAMMAD ARIF PUTRA 阿利夫", "MUHAMMAD FAREED QARIZH 柯利式", "MUHAMMAD FAZLEESYAH 华利士", "NORMA JANE BINTI ADAM GINDA 罗美娟", "NUR NAYYARA ASSYIFA 娜雅拉", "NUR SHELIENA BINTI ABDUL ALIY 沈丽娜", "SALLY ANN JEFF 雪莉", "WILLENA CHONG ER THONG 张尔彤"],
-        "TAHUN 3": ["AARON LIM FUNG BIN ABDULLAH 林枫", "ADKINSLEX AVNER ALEXIUS 阿夫纳", "AFEEF IQHWAN BIN ABDULLAH 艾非宜", "AIEZZANN AZZRYIEL BIN OCTOVYIANDYI 艾沾", "ALDER GABE DJ 艾得", "ALEX ZANDER JAIDDY 艾历克", "ALEXANDER YONG LI WEI 杨利伟", "ANNA ANMERRY EDMOND 李安娜", "ARSHAN MIKHAIL KANG 江艾善", "AVY CHRIST JOHN 真仪", "BELLA BETHANY LI AI 李爱", "CHLOE WONG PAU JING 王宝静", "DAYSON CHONG YUNG FOOK 张永福", "EALDY ALBERT 艾迪", "EALVIAN EVERDIN 艾文", "HAWA EYRDEENA BINTI HODHORI 哈娃", "JADEN HOPE JEROME JONATHAN 周杰德", "JULIET ROSABELL JOSUE 朱莉悦", "KAYLYN ONG QIAO EN 翁巧恩", "MIA QUEENIE MARADONA 梅雅", "MUHAMMAD AFNAN BIN ERWAN 周艾南", "MUHAMMAD AISY AZKA BIN ABDUL HAADI 艾习", "MUHAMMAD ARFAN BIN ERWAN 周艾凡", "MUHAMMAD ISKANDAR BIN KAMISIN 伊卡达", "NOVA GRACE JANUARIUS 诺娃", "NUR AINN BINTI RAINOH 安拉诺", "NURUL ZARA ZULIKAH BINTI JEFFREY 朱莉卡", "OLIVER OUSTEN SIAU 萧力威", "OSWIN KING KHIN RONG 金庆荣", "RAQEF HAZREEL BIN MOHD HAFIZI 哈哲立", "SITI FAIQAH ZIHNI BINTI AHMAD FADZIL 娣菲卡", "THAI YUNG XUAN 戴雍轩", "WAFIYATUL AAISHAH BINTI SUFRIH ISAMUDIN 华菲雅"],
+        "TAHUN 3": ["AARON LIM FUNG BIN ABDULLAH 林枫", "AFEEF IQHWAN BIN ABDULLAH 艾非宜", "AIEZZANN AZZRYIEL BIN OCTOVYIANDYI 艾沾", "ALDER GABE DJ 艾得", "ALDKINSLEX AVNER ALEXIUS 阿夫纳", "ALEX ZANDER JAIDDY 艾历克", "ALEXANDER YONG LI WEI 杨利伟", "ANNA ANMERRY EDMOND 李安娜", "ARSHAN MIKHAIL KANG 江艾善", "AVY CHRIST JOHN 真仪", "BELLA BETHANY LI AI 李爱", "CHLOE WONG PAU JING 王宝静", "DAYSON CHONG YUNG FOOK 张永福", "EALDY ALBERT 艾迪", "EALVIAN EVERDIN 艾文", "HAWA EYRDEENA BINTI HODHORI 哈娃", "JADEN HOPE JEROME JONATHAN 周杰德", "JULIET ROSABELL JOSUE 朱莉悦", "KAYLYN ONG QIAO EN 翁巧恩", "MIA QUEENIE MARADONA 梅雅", "MUHAMMAD AFNAN BIN ERWAN 周艾南", "MUHAMMAD AISY AZKA BIN ABDUL HAADI 艾习", "MUHAMMAD ARFAN BIN ERWAN 周艾凡", "MUHAMMAD ISKANDAR BIN KAMISIN 伊卡达", "NOVA GRACE JANUARIUS 诺娃", "NUR AINN BINTI RAINOH 安拉诺", "NURUL ZARA ZULIKAH BINTI JEFFREY 朱莉卡", "OLIVER OUSTEN SIAU 萧力威", "OSWIN KING KHIN RONG 金庆荣", "RAQEF HAZREEL BIN MOHD HAFIZI 哈哲立", "SITI FAIQAH ZIHNI BINTI AHMAD FADZIL 娣菲卡", "THAI YUNG XUAN 戴雍轩", "WAFIYATUL AAISHAH BINTI SUFRIH ISAMUDIN 华菲雅"],
         "TAHUN 4": ["ADAM LUTHFI SHAH BIN ABDULLAH 亚当", "ADRIELL DARELL AJINE 达立儿", "AIEDANN ARRSYHAD 艾尔丹", "ALEXIS CHIN WEI XIAN 陈伟显", "ALLAN KING WEN JIE 金文杰", "AMBERLY HAYVEN 安贝莉", "ANGELY RUTH BINTI ABDULLAH 安琪丽", "ANNA MICHELLE DOMINIC 安娜", "AWANGKU AEMAN ALVEE BIN AWANGKU AZWAN 艾曼", "BENIDICT ANAK MAC KELLAR 贝尼迪", "BRANDON AIDEN JOHNNY 谭官君", "CARSON CHIN ZHI HANG 陈子航", "CAYDEN EZEKIEL CAMILUS 凯登", "CHING JIE QI 詹杰錡", "DAYANG RYAMIEZA ALYA BINTI RAMZI 妲央", "DRAYOOENCHIA EDSON 戴永佳", "EMASHA ESTHER REMSLONE 艾美莎", "ESTER ELIVIANA BINTI FREDDLEY 艾丝德", "IVAN VOO JIA MING 邬家民", "JANIELLE JACKSPENCE 洁妮丽", "KEVIN SHEN CHIN PIN 冼志平", "MANDY WONG YI WEN 黄怡文", "NIKA REHAZIEL NIKA DAVEY 尼卡", "NUR ADREANA QASEH BINTI JEFFRY 艾丽娜", "NUR FAIQAH KHALEEDA BINTI MUHAMMAD KHAIRY 奴菲卡", "NURRAIHANAH MIKAYLA BINTI RAHMAT JUWANTO 雷哈娜", "PUTRI MAGFIRAH BINTI MOHD ARIFFIN 麦菲拉", "RYVEAL LEE RODRIGO GUMBEH @ GUMBIH 李维恩", "SCARLET ELEANOR ALDAWIN 丝卡乐", "SHANEVERON WONG 黄雪玟", "SHERMELLY JUDE JAIBIN 雪茗丽", "STEVE WONG JI HONG 王济泓", "ZHEE YON 志勇"],
         "TAHUN 5": ["ABDUL HABIB HARITH BIN ABDUL SAHIDI 哈比", "ALVARO GAVRIEL WELFRED 亚伟乐", "AMANDA SHEA CYRILL YAP 叶美美", "AMYLIA BINTI KAMISIN 艾美拉", "ARFAN MIKHAIL KANG 江艾凡", "CAYLEB CHRIST MOULI 凯乐", "CLAIRE DANNYSEUS 可丽儿", "DEAN MIFZAL LIEW BIN ABDULLAH 刘迪恩", "EDRY ISAAC CHIA 谢艾德", "ELSA VIANNEY MARY SYLVESTER 艾莎", "FAHYM QUSHAIRY BIN FRANCIS 法杏", "FLORENCE MAXIMILLIAN 符洛仁", "IRFAN ARFAKSYADZ BIN MOHD JAPRI 伊凡", "JACYLEN CHEN 陈美芯", "JAYDEN NELCENT LIEW 刘杰德", "JESVENELLY ASOK 韦妮丽", "MONIE QUEENDY RUDY 莫妮", "MUHAMAD HAFEEZ RAHIM 哈菲兹", "NUR AINDREA NADIYA BINTI JOSAMIN@JASIMIN 安得拉", "NUR QHALLESHA ANAMI BINTI SAHARUL AZRIN 卡俐莎", "NUR SHAINE SEIAN BINTI ABDULLAH 郑雪莉", "NURSYAZWINA SALI BINTI ABDULLAH 莎薇娜", "RYANZACQUELL ALRICH XAVIER 莱恩", "TEY XIN YEE 郑忻颐", "YAP JI CHENG 叶济承"],
         "TAHUN 6": ["AARON KING WEN SHENG 金文圣", "ADIB ARYAN 叶艾狄", "ALEXSSA MARADONA 艾莉莎", "AMBER ROSE 安蓓儿", "AMNI NURADRIANA HUSNA YAP 叶玉娜", "ANNABELLE MERCO 安贝拉", "ANNAMARIE SOPHIA JIMY 安娜美", "CALVIN LEE YI BIN 李毅彬", "CASSANDRA CHLOE CHRISTOPER 柯珊荙", "CHARLENE MIEA JIMMY 巧琳", "DAVIN LO KETT FUNG 罗国峰", "DEANIELL DEEANN DISIUS 德尼尔", "EALJOY ALBERT 尔齐", "EALVIANIE EVERDIN 尔妮", "ELYN HO SZE XUAN 何芝琁", "FIONNY ARVINA JOHNNY 谭芷霓", "HYERIN NIECHELL YOLEK 何灵", "IMANUEL LIONEL HIMBULAN 李诺尔", "JAYDEN CHIN TZE FENG 陈子峰", "JAYVRYAN JUNIOR 杰莱恩", "JAZLYN ONG QIAO XUN 翁巧洵", "MAVERICK CHESTER MARK 马富利", "NEOLITTA SHAYNE SIMPLISIUS 施娴", "NOUFAL ARFAKSYADZ 诺法", "NUR AZZAHRA SOFIEA 苏菲亚", "RYNDLEE RODRIGO 仁迪", "SHARONITTA WONG 黄雪柔", "SHERYLYNIEKA DILLESEN 施尼卡", "VICKLY DEEXLEE HARWANDRI 伟特利", "WYINCHAELL AUDREY ALEXIUS 玟萱"]
