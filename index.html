@@ -83,14 +83,14 @@
         .sidebar-shapes i:nth-child(7) { left: 10%; animation-duration: 24s; animation-delay: 15s; font-size: 1.6rem; }
         .sidebar-shapes i:nth-child(8) { left: 80%; animation-duration: 17s; animation-delay: 10s; font-size: 1.9rem; }
 
-        .nav-link { color: rgba(255,255,255,0.7); cursor: pointer; border-radius: 12px; margin: 4px 10px; padding: 12px 15px; transition: all 0.3s ease; }
+        .nav-link { color: rgba(255,255,255,0.7); cursor: pointer; border-radius: 12px; margin: 4px 10px; padding: 12px 15px; transition: all 0.3s ease; position: relative; z-index: 2; }
         .nav-link:hover { background-color: rgba(255,255,255,0.15); color: white; transform: translateX(5px); }
         .nav-link.active { background-color: white; color: #1b4b8a !important; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .nav-link.active .cn-text { color: #6c757d !important; }
-        .sidebar hr { border-color: rgba(255,255,255,0.2); margin: 20px 15px; }
+        .sidebar hr { border-color: rgba(255,255,255,0.2); margin: 20px 15px; position: relative; z-index: 2; }
         
         /* Kad & Elemen Biasa */
-        .card { border-radius: 18px; border: none; box-shadow: 0 8px 25px rgba(0,0,0,0.03); margin-bottom: 20px; transition: transform 0.3s ease; }
+        .card { border-radius: 18px; border: none; box-shadow: 0 8px 25px rgba(0,0,0,0.03); margin-bottom: 20px; transition: transform 0.3s ease; position: relative; z-index: 2; }
         .card:hover { box-shadow: 0 12px 30px rgba(0,0,0,0.05); }
         
         /* Kad Statistik Utama */
@@ -410,10 +410,16 @@
                 <div id="reportCardPreview" class="hidden card p-0 overflow-hidden">
                     <div class="bg-light p-3 border-bottom d-flex justify-content-end no-print"><button class="btn btn-danger shadow-sm" onclick="window.print()"><i class="fas fa-print me-2"></i> CETAK PDF</button></div>
                     <div id="printTarget" class="bg-white p-5">
-                        <div class="rc-header">
-                            <img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" class="rc-logo" onerror="this.style.display='none'">
-                            <div class="rc-title"><h3>SJK(C) CHENG MING</h3><h5 id="rcSessionTitle" class="mt-2 fw-bold">PERTANDINGAN AKADEMIK 1 2026</h5></div>
+                        
+                        <!-- HEADER KAD PELAPORAN YANG DIBETULKAN (HINDAR LOGO GERGASI SEMASA PRINT) -->
+                        <div class="d-flex align-items-center mb-3 pb-3" style="border-bottom: 2px solid black;">
+                            <img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px !important; max-width: 100px !important; height: auto !important; margin-right: 20px;" onerror="this.style.display='none'">
+                            <div>
+                                <h3 class="fw-bold mb-0 text-uppercase" style="font-size: 1.5rem;">SJK(C) CHENG MING</h3>
+                                <h5 id="rcSessionTitle" class="mt-2 fw-bold text-uppercase mb-0" style="font-size: 1rem;">PERTANDINGAN AKADEMIK 1 2026</h5>
+                            </div>
                         </div>
+                        
                         <table class="rc-info-table w-100 mb-4"><tr><td width="15%">NAMA:</td><td width="45%" style="border-bottom: 1px dotted #000;" id="rcName" class="text-uppercase text-primary fs-5"></td><td width="10%">KELAS:</td><td width="30%" style="border-bottom: 1px dotted #000;" id="rcClass" class="text-primary fs-5"></td></tr></table>
                         <table class="table table-bordered table-sm text-center align-middle" style="border-color: black;">
                             <thead class="table-dark">
@@ -844,13 +850,13 @@
         div.classList.remove('hidden'); btnSave.disabled = false; 
         
         let h = `
-        <div class="d-none d-print-flex justify-content-between align-items-start mb-4">
+        <div class="d-none d-print-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 2px solid black;">
             <div class="text-start">
                 <h4 class="fw-bold m-0 text-uppercase">SEKOLAH : SJKC CHENG MING KENINGAU</h4>
                 <h4 class="fw-bold m-0 text-uppercase">ANALISIS DAN TARGET MATA PELAJARAN</h4>
                 <div class="mt-4"><h6 class="m-0 text-uppercase">MATA PELAJARAN : ${sub}</h6><h6 class="m-0 text-uppercase">KELAS : ${cls}</h6></div>
             </div>
-            <div><img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px; height: auto;"></div>
+            <div><img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px !important; max-width: 100px !important; height: auto;"></div>
         </div>
         <h5 class="mb-3 fw-bold d-print-none text-uppercase text-primary"><i class="fas fa-edit me-2"></i> Pengisian: ${sub} (${cls})</h5>
         <div class="table-responsive table-custom-border"><table class="table table-bordered table-sm text-center align-middle mb-0" style="font-size:0.85rem; border-color:#dee2e6;">
@@ -1019,7 +1025,7 @@
 
         let h = `
         <div id="printOverallTarget">
-            <div class="d-none d-print-flex justify-content-between align-items-center mb-4">
+            <div class="d-none d-print-flex justify-content-between align-items-center mb-4 pb-3" style="border-bottom: 2px solid black;">
                 <div class="text-start">
                     <h4 class="fw-bold m-0 text-uppercase">SEKOLAH : SJKC CHENG MING KENINGAU</h4>
                     <h5 class="fw-bold m-0 text-uppercase">MARKAH KESELURUHAN KELAS</h5>
@@ -1028,7 +1034,7 @@
                         <h6 class="m-0 text-uppercase">KELAS : ${cls}</h6>
                     </div>
                 </div>
-                <div><img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px; height: auto;"></div>
+                <div><img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="width: 100px !important; max-width: 100px !important; height: auto;"></div>
             </div>
             <h5 class="mb-3 fw-bold d-print-none text-uppercase text-primary"><i class="fas fa-list me-2"></i> Rekod: ${cls} - ${displaySess}</h5>
             <div class="table-responsive table-custom-border">
@@ -1120,14 +1126,17 @@
         document.getElementById('rcName').innerText = name; document.getElementById('rcClass').innerText = cls;
 
         const tbody = document.getElementById('rcTableBody'); tbody.innerHTML = '';
-        let totalMarks = 0, subjectCount = 0; const validSubjects = getSubjectsForClass(cls);
+        let totalMarks = 0, subjectCount = 0, rowNum = 0; 
+        const validSubjects = getSubjectsForClass(cls);
         
         validSubjects.forEach((sub, idx) => {
             let isMuslim = muslimStudents.some(ms => ms === name || name.includes(ms));
             if (sub === 'PENDIDIKAN AGAMA ISLAM' && !isMuslim) return; if (sub === 'PENDIDIKAN MORAL' && isMuslim) return;
+            
+            rowNum++;
             let m = '-', g = '-';
-            if(db[session] && db[session][cls] && db[session][cls][name] && db[session][cls][name][sub]) { m = db[session][cls][name][sub].mark; g = db[session][cls][name][sub].grade; if(m !== 'TH' && !isNaN(m)) { totalMarks += parseFloat(m); subjectCount++; } }
-            tbody.innerHTML += `<tr><td>${subjectCount + 1}</td><td class="text-start">${sub}</td><td class="fw-bold">${m}</td><td><span class="grade-box ${g!=='-'?'g-'+g:''}">${g}</span></td></tr>`;
+            if(db[session] && db[session][cls] && db[session][cls][name] && db[session][cls][name][sub]) { m = db[session][cls][name][sub].mark; g = db[session][cls][name][sub].grade; if(m !== 'TH' && !isNaN(m) && m !== '') { totalMarks += parseFloat(m); subjectCount++; } }
+            tbody.innerHTML += `<tr><td class="fw-bold text-muted">${rowNum}</td><td class="text-start fw-bold text-dark">${sub}</td><td class="fw-bold text-primary">${m}</td><td><span class="grade-box ${g!=='-'?'g-'+g:''}">${g}</span></td></tr>`;
         });
         document.getElementById('rcTotalMarks').innerText = totalMarks.toFixed(0); document.getElementById('rcAverage').innerText = subjectCount > 0 ? (totalMarks/subjectCount).toFixed(2) : '0';
         document.getElementById('rcRank').innerText = getStudentRank(session, cls, name); document.getElementById('rcAttPresent').innerText = p; document.getElementById('rcAttTotal').innerText = t; document.getElementById('rcAttPercent').innerText = t > 0 ? ((p/t)*100).toFixed(0) + '%' : '0%';
