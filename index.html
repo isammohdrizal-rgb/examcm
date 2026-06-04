@@ -55,18 +55,39 @@
         /* -- REKAAN DALAMAN (DASHBOARD & APP) -- */
         #mainApp { display: none; } 
         
-        /* Sidebar Baru */
+        /* Sidebar Baru (Gelap Sikit & Ada Animasi) */
         .sidebar { 
-            background: linear-gradient(180deg, #0052D4 0%, #4364F7 100%); 
+            background: linear-gradient(180deg, #0c2646 0%, #1b4b8a 100%); 
             min-height: 100vh; color: white; 
-            box-shadow: 4px 0 25px rgba(0,0,0,0.1); 
+            box-shadow: 4px 0 25px rgba(0,0,0,0.15); 
             z-index: 10; padding-top: 20px;
+            position: relative; 
+            overflow: hidden;
         }
+        
+        /* Animasi Pendidikan Terapung pada Sidebar */
+        .sidebar-shapes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .sidebar-shapes i { position: absolute; color: rgba(255, 255, 255, 0.06); font-size: 1.5rem; animation: floatEdu linear infinite; bottom: -50px; }
+        @keyframes floatEdu {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+        }
+        .sidebar-shapes i:nth-child(1) { left: 15%; animation-duration: 18s; animation-delay: 0s; font-size: 2rem; }
+        .sidebar-shapes i:nth-child(2) { left: 85%; animation-duration: 22s; animation-delay: 3s; font-size: 1.2rem; }
+        .sidebar-shapes i:nth-child(3) { left: 45%; animation-duration: 25s; animation-delay: 1s; font-size: 1.8rem; }
+        .sidebar-shapes i:nth-child(4) { left: 70%; animation-duration: 15s; animation-delay: 5s; font-size: 1.5rem; }
+        .sidebar-shapes i:nth-child(5) { left: 25%; animation-duration: 20s; animation-delay: 8s; font-size: 2.2rem; }
+        .sidebar-shapes i:nth-child(6) { left: 60%; animation-duration: 19s; animation-delay: 12s; font-size: 1.4rem; }
+        .sidebar-shapes i:nth-child(7) { left: 10%; animation-duration: 24s; animation-delay: 15s; font-size: 1.6rem; }
+        .sidebar-shapes i:nth-child(8) { left: 80%; animation-duration: 17s; animation-delay: 10s; font-size: 1.9rem; }
+
         .nav-link { color: rgba(255,255,255,0.7); cursor: pointer; border-radius: 12px; margin: 4px 10px; padding: 12px 15px; transition: all 0.3s ease; }
         .nav-link:hover { background-color: rgba(255,255,255,0.15); color: white; transform: translateX(5px); }
-        .nav-link.active { background-color: white; color: #0052D4 !important; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .nav-link.active { background-color: white; color: #1b4b8a !important; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .nav-link.active .cn-text { color: #6c757d !important; }
-        .sidebar hr { border-color: rgba(255,255,255,0.3); margin: 20px 15px; }
+        .sidebar hr { border-color: rgba(255,255,255,0.2); margin: 20px 15px; }
         
         /* Kad & Elemen Biasa */
         .card { border-radius: 18px; border: none; box-shadow: 0 8px 25px rgba(0,0,0,0.03); margin-bottom: 20px; transition: transform 0.3s ease; }
@@ -91,7 +112,7 @@
         .btn-danger { background: linear-gradient(135deg, #ff416c, #ff4b2b); border: none; }
         
         /* Jadual */
-        .table-dark th { background-color: #0052D4 !important; color: white !important; border-color: #0044b3 !important; }
+        .table-dark th { background-color: #0c2646 !important; color: white !important; border-color: #1b4b8a !important; }
         .table-custom-border { border-radius: 15px; overflow: hidden; border: 1px solid #e0e0e0; }
 
         /* Gred & Elemen Lama */
@@ -179,44 +200,59 @@
     <div class="row">
         <!-- SIDEBAR BARU -->
         <div class="col-md-2 sidebar px-2 no-print">
-            <div class="d-flex align-items-center mb-4 px-3 mt-3">
-                <div class="bg-white rounded p-1 me-3 shadow-sm d-flex justify-content-center align-items-center" style="width: 50px; height: 50px; flex-shrink: 0;">
-                    <img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="max-width: 100%; height: auto; border-radius: 5px;">
-                </div>
-                <div>
-                    <h6 class="mb-0 fw-bold text-white lh-1">SJKC CHENG MING</h6>
-                    <small class="text-white-50 cn-text mt-1" style="font-size: 0.75rem;">正明华小</small>
-                </div>
+            
+            <!-- Animasi Pendidikan Terapung -->
+            <div class="sidebar-shapes">
+                <i class="fas fa-pencil-alt"></i>
+                <i class="fas fa-book"></i>
+                <i class="fas fa-divide"></i>
+                <i class="fas fa-plus"></i>
+                <i class="fas fa-ruler-combined"></i>
+                <i class="fas fa-minus"></i>
+                <i class="fas fa-square-root-alt"></i>
+                <i class="fas fa-calculator"></i>
             </div>
-            <div class="px-3 mb-4">
-                <label class="small text-white-50 fw-bold mb-2 d-block" style="letter-spacing: 0.5px;">SESI PERTANDINGAN</label>
-                <select id="sessionSelect" class="form-select form-select-sm shadow-sm border-0 fw-bold text-dark" style="background-color: rgba(255,255,255,0.95); border-radius: 8px; height: 35px;" onchange="loadData()">
-                    <option value="" disabled>-- HEADCOUNT --</option>
-                    <option value="TOV">TOV (Take Off Value)</option>
-                    <option value="OTI 1">OTI 1 (Target 1)</option>
-                    <option value="OTI 2">OTI 2 (Target 2)</option>
-                    <option value="ETR">ETR (Target Akhir)</option>
-                    <option value="" disabled>-- UJIAN SEBENAR --</option>
-                    <option value="PERTANDINGAN AKADEMIK 1 2026">PERTANDINGAN AKADEMIK 1 2026 (2026年学术比赛（一）)</option>
-                    <option value="PERTANDINGAN AKADEMIK 2 2026">PERTANDINGAN AKADEMIK 2 2026 (2026年学术比赛（二）)</option>
-                </select>
-            </div>
-            <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link active" onclick="showSection('dashboard')"><i class="fas fa-home me-2"></i> Utama <span class="cn-text cn-nav-text">主页</span></a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showSection('inputMarks')"><i class="fas fa-edit me-2"></i> Isi Markah <span class="cn-text cn-nav-text">输入分数</span></a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showSection('headcount')"><i class="fas fa-chart-line me-2"></i> Isi & Analisis Headcount <span class="cn-text cn-nav-text">学生成绩预算</span></a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showSection('overallMarks')"><i class="fas fa-clipboard-list me-2"></i> Markah Keseluruhan <span class="cn-text cn-nav-text">班级整体成绩</span></a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showSection('reportCard')"><i class="fas fa-id-card me-2"></i> Kad Pelaporan <span class="cn-text cn-nav-text">成绩报告单</span></a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showSection('grouping')"><i class="fas fa-users me-2"></i> Pengelompokan <span class="cn-text cn-nav-text">成绩归类表</span></a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showSection('ranking')"><i class="fas fa-trophy me-2"></i> Ranking Kelas <span class="cn-text cn-nav-text">班级排名</span></a></li>
-                <li class="nav-item"><a class="nav-link" onclick="showSection('search')"><i class="fas fa-search me-2"></i> Carian Murid <span class="cn-text cn-nav-text">学生搜索</span></a></li>
-            </ul>
-            <hr>
-            <div class="px-3 pb-4">
-                <p class="small text-white-50 fw-bold mb-2" style="letter-spacing: 0.5px;">PENGURUSAN DATA</p>
-                <button class="btn btn-sm w-100 mb-2 fw-bold" style="background: rgba(255,255,255,0.2); color: white;" onclick="exportData()"><i class="fas fa-download me-1"></i> Simpan Backup</button>
-                <input type="file" id="importFile" class="hidden" accept=".json" onchange="importData(this)">
-                <button class="btn btn-sm btn-outline-light w-100 fw-bold border-0 bg-transparent text-start px-0 mt-2" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i> Keluar Sistem</button>
+            
+            <div style="position: relative; z-index: 2;">
+                <div class="d-flex align-items-center mb-4 px-3 mt-3">
+                    <div class="bg-white rounded p-1 me-3 shadow-sm d-flex justify-content-center align-items-center" style="width: 50px; height: 50px; flex-shrink: 0;">
+                        <img src="https://i.postimg.cc/63gD9WdB/LOGO-BARU.jpg" alt="Logo" style="max-width: 100%; height: auto; border-radius: 5px;">
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold text-white lh-1">SJKC CHENG MING</h6>
+                        <small class="text-white-50 cn-text mt-1" style="font-size: 0.75rem;">正明华小</small>
+                    </div>
+                </div>
+                <div class="px-3 mb-4">
+                    <label class="small text-white-50 fw-bold mb-2 d-block" style="letter-spacing: 0.5px;">SESI PERTANDINGAN</label>
+                    <select id="sessionSelect" class="form-select form-select-sm shadow-sm border-0 fw-bold text-dark" style="background-color: rgba(255,255,255,0.95); border-radius: 8px; height: 35px;" onchange="loadData()">
+                        <option value="" disabled>-- HEADCOUNT --</option>
+                        <option value="TOV">TOV (Take Off Value)</option>
+                        <option value="OTI 1">OTI 1 (Target 1)</option>
+                        <option value="OTI 2">OTI 2 (Target 2)</option>
+                        <option value="ETR">ETR (Target Akhir)</option>
+                        <option value="" disabled>-- UJIAN SEBENAR --</option>
+                        <option value="PERTANDINGAN AKADEMIK 1 2026">PERTANDINGAN AKADEMIK 1 2026 (2026年学术比赛（一）)</option>
+                        <option value="PERTANDINGAN AKADEMIK 2 2026">PERTANDINGAN AKADEMIK 2 2026 (2026年学术比赛（二）)</option>
+                    </select>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link active" onclick="showSection('dashboard')"><i class="fas fa-home me-2"></i> Utama <span class="cn-text cn-nav-text">主页</span></a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('inputMarks')"><i class="fas fa-edit me-2"></i> Isi Markah <span class="cn-text cn-nav-text">输入分数</span></a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('headcount')"><i class="fas fa-chart-line me-2"></i> Isi & Analisis Headcount <span class="cn-text cn-nav-text">学生成绩预算</span></a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('overallMarks')"><i class="fas fa-clipboard-list me-2"></i> Markah Keseluruhan <span class="cn-text cn-nav-text">班级整体成绩</span></a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('reportCard')"><i class="fas fa-id-card me-2"></i> Kad Pelaporan <span class="cn-text cn-nav-text">成绩报告单</span></a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('grouping')"><i class="fas fa-users me-2"></i> Pengelompokan <span class="cn-text cn-nav-text">成绩归类表</span></a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('ranking')"><i class="fas fa-trophy me-2"></i> Ranking Kelas <span class="cn-text cn-nav-text">班级排名</span></a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('search')"><i class="fas fa-search me-2"></i> Carian Murid <span class="cn-text cn-nav-text">学生搜索</span></a></li>
+                </ul>
+                <hr>
+                <div class="px-3 pb-4">
+                    <p class="small text-white-50 fw-bold mb-2" style="letter-spacing: 0.5px;">PENGURUSAN DATA</p>
+                    <button class="btn btn-sm w-100 mb-2 fw-bold" style="background: rgba(255,255,255,0.2); color: white;" onclick="exportData()"><i class="fas fa-download me-1"></i> Simpan Backup</button>
+                    <input type="file" id="importFile" class="hidden" accept=".json" onchange="importData(this)">
+                    <button class="btn btn-sm btn-outline-light w-100 fw-bold border-0 bg-transparent text-start px-0 mt-2" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i> Keluar Sistem</button>
+                </div>
             </div>
         </div>
         
@@ -447,14 +483,14 @@
                                 <span class="fw-bold"><i class="fas fa-table me-1"></i> Papar</span><span class="cn-text text-white-50 mt-1" style="font-size: 0.8em;">查看</span>
                             </button>
                         </div>
-                        <div class="col-md-2 d-flex align-items-end">
+                        <div class="col-md-3 d-flex align-items-end">
                             <button id="btnSaveHeadcount" class="btn btn-primary w-100 d-flex flex-column align-items-center justify-content-center py-2 shadow-sm" onclick="saveHeadcountMatrix()" disabled>
                                 <span class="fw-bold"><i class="fas fa-save me-1"></i> SIMPAN</span><span class="cn-text text-white-50 mt-1" style="font-size: 0.8em;">保存成绩</span>
                             </button>
                         </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <button class="btn btn-danger w-100 d-flex flex-column align-items-center justify-content-center py-2 shadow-sm" onclick="printHeadcountPDF()">
-                                <span class="fw-bold"><i class="fas fa-print me-1"></i> CETAK</span><span class="cn-text text-white-50 mt-1" style="font-size: 0.8em;">打印</span>
+                        <div class="col-md-1 d-flex align-items-end">
+                            <button class="btn btn-danger w-100 d-flex flex-column align-items-center justify-content-center py-2 shadow-sm" onclick="printHeadcountPDF()" title="Cetak PDF">
+                                <span class="fw-bold"><i class="fas fa-print"></i></span>
                             </button>
                         </div>
                     </div>
@@ -520,7 +556,6 @@
     const subjects = ["BAHASA CINA", "BAHASA INGGERIS", "BAHASA MALAYSIA", "MATEMATIK", "PENDIDIKAN AGAMA ISLAM", "PENDIDIKAN MORAL", "PENDIDIKAN JASMANI DAN KESIHATAN", "PENDIDIKAN MUZIK", "PENDIDIKAN SENI VISUAL", "REKA BENTUK TEKNOLOGI", "SAINS", "SEJARAH"];
     const coreSubjects = ["BAHASA CINA", "BAHASA MALAYSIA", "BAHASA INGGERIS", "MATEMATIK", "SAINS"];
     
-    // Singkatan untuk jadual Markah Keseluruhan agar muat di skrin/print
     const subShort = {
         "BAHASA CINA": "BC", "BAHASA INGGERIS": "BI", "BAHASA MALAYSIA": "BM",
         "MATEMATIK": "MT", "PENDIDIKAN AGAMA ISLAM": "PAI", "PENDIDIKAN MORAL": "PM",
